@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+    
+    <th:block th:replace="~{fragments/head :: head}"></th:block>
+    <title>Postreria | Catalogo</title>
+    <script src="js/postres.js"></script>
+
+  </head>
+<body>
+    <div class="container py-3">
+        <div class="row align-items-center">
+            <!-- Logo -->
+            <div class="col-12 col-md-4 text-center text-md-start mb-2 mb-md-0">
+                <a th:href="@{/index}" class="navbar-brand fw-bold" style="font-family: 'Montserrat', cursive; font-size: 2rem; color: #dc3545;">Aleyumy Sweet</a>
+            </div>
+            <!-- Buscador -->
+            <div class="col-12 col-md-6">
+                <form class="d-flex" role="search">
+                    <input class="form-control rounded-start" type="search" placeholder="Buscar productos..." aria-label="Buscar" />
+                    <button class="btn btn-outline-danger rounded-end" type="submit">Buscar</button>
+                </form>
+            </div>
+            <!-- Botón de inicio de sesión -->
+            <div class="col-12 col-md-2 text-end">
+  <!-- Si hay usuario en sesión -->
+  <th:block th:if="${session.usuarioLogueado != null}">
+    <div class="dropdown">
+      <button class="btn btn-success dropdown-toggle" type="button" id="usuarioMenu"
+              data-bs-toggle="dropdown" aria-expanded="false">
+        <span th:text="${session.usuarioLogueado.nombre}"></span>
+      </button>
+      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="usuarioMenu">
+        <li><a class="dropdown-item" th:href="@{/perfil}">Perfil</a></li>
+        <li><a class="dropdown-item" th:href="@{/logout}">Cerrar sesión</a></li>
+      </ul>
+    </div>
+  </th:block>
+
+  <!-- Si NO hay usuario en sesión -->
+  <th:block th:if="${session.usuarioLogueado == null}">
+    <a th:href="@{/login}" class="btn btn-danger">Iniciar sesión</a>
+  </th:block>
+</div>
+        </div>
+    </div>
+  <!-- Barra inferior con menú responsive y botón a la derecha -->
+  <nav class="navbar navbar-expand-md bg-white border-top">
+    <div class="container">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+       <ul class="navbar-nav fw-semibold text-center" style="gap: 3rem; display: flex;">
+        <li class="nav-item">
+          <a th:href="@{/index}" class="nav-link text-dark">Inicio</a>
+        </li>
+        <li class="nav-item">
+          <a th:href="@{/postres}" class="nav-link text-danger border-bottom border-3 border-danger active">
+            <i class="bi bi-cake-fill"></i> Nuestra Carta
+          </a>
+        </li>
+        <li class="nav-item">
+          <a th:href="@{/nosotros}" class="nav-link text-dark">Nosotros</a>
+        </li>
+        <li class="nav-item">
+          <a th:href="@{/contacto}" class="nav-link text-dark">Contacto</a>
+        </li>
+      </ul>
+    </div>
+
+
+      <!-- Botón Pedidos con ícono carrito -->
+      <div class="d-none d-md-block">
+        <a th:href="@{/pedidos}"
+          class="btn btn-warning rounded-pill d-flex align-items-center gap-2 pedido-btn"
+          style="background-color: #d9b89c; border: none; color: #4a3c32;  padding: 0.5rem 1.2rem; font-size: 1rem; font-weight: normal;">
+          <i class="bi bi-cart4"></i> Pedidos
+        </a>
+      </div>
+  </nav>
+
+
+
+    <div class="container p-4 rounded shadow-sm" style="background-color: #fdf6f0;">
+        <h2 class="fw-bold text-center">POSTRES</h2>
+            <p class="text-center">12 porciones - 21 cms de diámetro aprox</p>
+        <select class="form-select mb-4" id="combo_Postre" aria-label="Seleccionar categoría">
+            <option value="todos" selected>Nuestros Postres</option>
+            <option value="pasteles">Pasteles</option>
+            <option value="galletas">Galletas</option>
+            <option value="helados">Helados</option>
+            <option value="tiramisus">Tiramisus</option>
+            <option value="cheesecake">Cheesecake</option>
+            <option value="brownies">Brownies</option>
+            <option value="cupcakes">Cupcakes</option>
+            <option value="panes">Panes</option>
+        </select>
+        <div id="productos" class="row justify-content-center g-4">
+        <!-- Pasteles -->
+        <div class="col-12 col-sm-6 col-xl-3 grupo-productos pasteles">
+            <div class="card shadow rounded h-100 border-danger">
+                <img src="https://wongfood.vtexassets.com/arquivos/ids/649061/221025-1.jpg?v=638266776488300000" alt="torta_tresleches">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-danger">Torta de tres leches</h5>
+                    <p class="card-text">Esponjosa y húmeda, bañada en tres leches. Un clásico irresistible.</p>
+                    <a th:href="@{/vermas}" class="btn btn-light border-danger text-danger fw-bold producto" data-id="1">Ver más</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl-3 grupo-productos pasteles">
+            <div class="card shadow rounded h-100 border-danger">
+                <img class="img-fluid h-100" src="imagenes/torta_chocolate.jpg" alt="torta_chocolate">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-danger">Torta de chocolate</h5>
+                    <p class="card-text">Rica y esponjosa, elaborada con cacao puro. Textura húmeda y suave.</p>
+                    <a th:href="@{/vermas}"  data-id="2" class="btn btn-light border-danger text-danger fw-bold producto">Ver más</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-xl-3 grupo-productos pasteles">
+            <div class="card shadow rounded h-100 border-danger">
+                <img src="https://metroio.vtexassets.com/arquivos/ids/495176/63145-01-40537.jpg?v=638339506006530000" alt="torta_lucuma">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-danger">Torta de lúcuma</h5>
+                    <p class="card-text">Cremosa y esponjosa, con pulpa de lúcuma. Sabor suave y especial.</p>
+                    <a th:href="@{/vermas}" class="btn btn-light border-danger text-danger fw-bold producto" data-id="3" >Ver más</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-xl-3 grupo-productos pasteles">
+            <div class="card shadow rounded h-100 border-danger">
+                <img src="imagenes/torta_pecanas.jpg" alt="torta_pecanas">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-danger">Dulzura de pecanas</h5>
+                    <p class="card-text">Esponjosa y húmeda, con pecanas que realzan su sabor.</p>
+                    <a th:href="@{/vermas}"  data-id="4" class="btn btn-light border-danger text-danger fw-bold producto">Ver más</a>
+                </div>
+            </div>
+        </div>
+        <!-- Galletas -->
+        <div class="col-12 col-sm-6 col-xl-3 grupo-productos galletas" style="display:none;">
+            <div class="card shadow rounded h-100 border-danger">
+                <img src="https://cdn2.cocinadelirante.com/sites/default/files/images/2018/08/galletas-caseras-de-chispas-de-chocolate-sin-horno.jpg" alt="galletas_chocolate">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-danger">Galletas de chocolate</h5>
+                    <p class="card-text">Crujientes por fuera, suaves por dentro, con chispas de chocolate.</p>
+                    <a th:href="@{/vermas}"  data-id="5" class="btn btn-light border-danger text-danger fw-bold producto">Ver más</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl-3 grupo-productos galletas" style="display:none;">
+            <div class="card shadow rounded h-100 border-danger">
+                <img src="imagenes/galletas_vainilla.jpg" alt="galletas_vainilla">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-danger">Galletas de vainilla</h5>
+                    <p class="card-text">Doradas y delicadas, con un aroma envolvente a vainilla natural y una textura que se deshace suavemente en cada bocado.</p>
+                    <a th:href="@{/vermas}"  data-id="6" class="btn btn-light border-danger text-danger fw-bold producto">Ver más</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl-3 grupo-productos galletas" style="display:none;">
+            <div class="card shadow rounded h-100 border-danger">
+                <img src="imagenes/galletas_navideñas.jpg" class="h-100" alt="galletas_chocolate">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-danger">Galletas navideñas</h5>
+                    <p class="card-text">Festivas y fragantes, decoradas con amor y especias cálidas que evocan el espíritu de la temporada en cada mordida.</p>
+                    <a th:href="@{/vermas}"  data-id="7" class="btn btn-light border-danger text-danger fw-bold producto">Ver más</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl-3 grupo-productos galletas" style="display:none;">
+            <div class="card shadow rounded h-100 border-danger">
+                <img src="imagenes/galletas_caseras.jpg" alt="galletas_azucar">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-danger">Galletas de azúcar</h5>
+                    <p class="card-text">Ligeras y crujientes, espolvoreadas con azúcar brillante para un toque dulce y clásico que nunca pasa de moda.</p>
+                    <a th:href="@{/vermas}"  data-id="8" class="btn btn-light border-danger text-danger fw-bold producto">Ver más</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Helados -->
+        <div class="col-12 col-sm-6 col-xl-3 grupo-productos helados" style="display:none;">
+            <div class="card shadow rounded h-100 border-danger">
+                <img src="https://th.bing.com/th/id/R.3fd1b86f797efcac41eb3f70918dcb6d?rik=HFeyh3pBD5ZqOQ&riu=http%3a%2f%2ftodofondos.com%2fbin%2ffondos%2f06%2f62%2f34d.jpg&ehk=CGZajbX0dBf6ajw6pv7pT%2b4B7GUGsqjN8tTipP7%2fedQ%3d&risl=&pid=ImgRaw&r=0" alt="helado_fresa">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-danger">Helado de fresa</h5>
+                    <p class="card-text">Refrescante y cremoso, elaborado con fresas naturales.</p>
+                    <a th:href="@{/vermas}"  data-id="9" class="btn btn-light border-danger text-danger fw-bold producto">Ver más</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl-3 grupo-productos helados" style="display:none;">
+            <div class="card shadow rounded h-100 border-danger">
+                <img src="imagenes/helado_de_chocolate.jpg" alt="helado_chocolate">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-danger">Helado de chocolate</h5>
+                    <p class="card-text">Intenso y cremoso, elaborado con cacao puro para una experiencia profundamente deliciosa.</p>
+                    <a th:href="@{/vermas}"  data-id="10" class="btn btn-light border-danger text-danger fw-bold producto">Ver más</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl-3 grupo-productos helados" style="display:none;">
+            <div class="card shadow rounded h-100 border-danger">
+                <img src="imagenes/helado_de_vainilla.jpg" alt="helado_vainilla">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-danger">Helado de vainilla</h5>
+                    <p class="card-text">Suave y aromático, preparado con esencia natural de vainilla que acaricia el paladar.</p>
+                    <a th:href="@{/vermas}"  data-id="11" class="btn btn-light border-danger text-danger fw-bold producto">Ver más</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl-3 grupo-productos helados" style="display:none;">
+            <div class="card shadow rounded h-100 border-danger">
+                <img src="imagenes/helado_lucuma.jpg" alt="helado_lucuma">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-danger">Helado de lúcuma</h5>
+                    <p class="card-text">Exótico y cremoso, hecho con lúcuma fresca para un sabor dulce y único, típico del Perú.</p>
+                    <a th:href="@{/vermas}" data-id="12" class="btn btn-light border-danger text-danger fw-bold producto">Ver más</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tiramisus -->
+         <div class="col-12 col-sm-6 col-xl-3 grupo-productos tiramisus" style="display:none;">
+            <div class="card shadow rounded h-100 border-danger">
+                <img src="imagenes/tiramisu_cafe.jpg" alt="tiramisu_cafe">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-danger">Tiramisú de licor de café</h5>
+                    <p class="card-text">Seductor y cremoso, con capas de bizcocho empapadas en café suave y licor de café.</p>
+                    <a th:href="@{/vermas}"  data-id="13" class="btn btn-light border-danger text-danger fw-bold producto">Ver más</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl-3 grupo-productos tiramisus" style="display:none;">
+            <div class="card shadow rounded h-100 border-danger">
+                <img src="imagenes/tiramisu_chocolate.jpg" alt="tiramisu_chocolate">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-danger">Tiramisú de chocolate</h5>
+                    <p class="card-text">Una versión más intensa, con capas de crema de mascarpone y chocolate fundido o cacao extra.</p>
+                    <a th:href="@{/vermas}"  data-id="14" class="btn btn-light border-danger text-danger fw-bold producto">Ver más</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl-3 grupo-productos tiramisus" style="display:none;">
+            <div class="card shadow rounded h-100 border-danger">
+                <img src="imagenes/tiramisu_pistacho.jpg" alt="tiramisu_pistacho">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-danger">Tiramisú de pistacho</h5>
+                    <p class="card-text">Una delicia cremosa con pasta de pistacho que le da un sabor único y sofisticado.</p>
+                    <a th:href="@{/vermas}"  data-id="15" class="btn btn-light border-danger text-danger fw-bold producto">Ver más</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl-3 grupo-productos tiramisus" style="display:none;">
+            <div class="card shadow rounded h-100 border-danger">
+                <img src="imagenes/tiramisu_limon.jpg" alt="tiramisu_limon">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-danger">Tiramisú de limón</h5>
+                    <p class="card-text">Refrescante y cítrico, con crema de mascarpone aromatizada con ralladura y jugo de limón.</p>
+                    <a th:href="@{/vermas}"  data-id="16" class="btn btn-light border-danger text-danger fw-bold producto">Ver más</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cheesecake -->
+         <div class="col-12 col-sm-6 col-xl-3 grupo-productos cheesecake" style="display:none;">
+            <div class="card shadow rounded h-100 border-danger">
+                <img src="imagenes/cheesecake_fresa.jpg" alt="cheesecake_fresa">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-danger">Cheesecake de fresa</h5>
+                    <p class="card-text">Suave y frutal, con fresas frescas que le dan un toque vibrante.</p>
+                    <a th:href="@{/vermas}"  data-id="17" class="btn btn-light border-danger text-danger fw-bold producto">Ver más</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl-3 grupo-productos cheesecake" style="display:none;">
+            <div class="card shadow rounded h-100 border-danger">
+                <img src="https://www.thereciperebel.com/wp-content/uploads/2016/12/The-Best-Chocolate-Cheesecake-www.thereciperebel.com-6-of-10.jpg" alt="cheesecake_chocolate">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-danger">Cheesecake de chocolate</h5>
+                    <p class="card-text">Cremoso y profundo, con sabor intenso a cacao.</p>
+                    <a th:href="@{/vermas}"  data-id="18" class="btn btn-light border-danger text-danger fw-bold producto">Ver más</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl-3 grupo-productos cheesecake" style="display:none;">
+            <div class="card shadow rounded h-100 border-danger">
+                <img src="https://content-cocina.lecturas.com/medio/2021/11/10/paso_a_paso_para_realizar_new_york_cheesecake_resultado_final_f9830001_2000x1333.jpg" alt="ny_cheesecake">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-danger">New York Cheesecake</h5>
+                    <p class="card-text">Denso, cremoso y horneado, con base de galleta y un toque de vainilla.</p>
+                    <a th:href="@{/vermas}"  data-id="19" class="btn btn-light border-danger text-danger fw-bold producto">Ver más</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl-3 grupo-productos cheesecake" style="display:none;">
+            <div class="card shadow rounded h-100 border-danger">
+                <img src="https://cdn2.cocinadelirante.com/sites/default/files/styles/gallerie/public/images/2017/03/cheseecakejapones.jpg" alt="cheesecake_japones">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-danger">Cheesecake japonés</h5>
+                    <p class="card-text">Ligero y esponjoso como una nube, con textura tipo soufflé.</p>
+                    <a th:href="@{/vermas}"  data-id="20" class="btn btn-light border-danger text-danger fw-bold producto">Ver más</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Brownies -->
+         <div class="col-12 col-sm-6 col-xl-3 grupo-productos brownies" style="display:none;">
+            <div class="card shadow rounded h-100 border-danger">
+                <img src="https://cdn11.bigcommerce.com/s-oyt6pom1dt/images/stencil/2560w/products/3502/5819/chocolate-brownies-1__66470.1622216392.jpg?c=1" alt="brownie_chocolate">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-danger">Brownie de chocolate</h5>
+                    <p class="card-text">Denso y chocolatoso, con corteza crujiente y centro suave.</p>
+                    <a th:href="@{/vermas}"  data-id="21" class="btn btn-light border-danger text-danger fw-bold producto">Ver más</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl-3 grupo-productos brownies" style="display:none;">
+            <div class="card shadow rounded h-100 border-danger">
+                <img src="https://file-cdn.mercyforanimals.org/mercy4animals.wpengine.com/sites/446/2019/03/Brownies.jpg" alt="brownie_nueces">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-danger">Brownie con nueces</h5>
+                    <p class="card-text">Con deliciosos trozos de nuez tostada que aportan textura y sabor.</p>
+                    <a th:href="@{/vermas}"  data-id="22" class="btn btn-light border-danger text-danger fw-bold producto">Ver más</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl-3 grupo-productos brownies" style="display:none;">
+            <div class="card shadow rounded h-100 border-danger">
+                <img src="https://tse3.mm.bing.net/th/id/OIP.u5-yB5ewsjCb-zbbLG-X3wHaE8?rs=1&pid=ImgDetMain&o=7&rm=3" alt="brownie_frambuesa">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-danger">Brownie de frambuesa</h5>
+                    <p class="card-text">Fresco y afrutado, con el toque ácido de frambuesas naturales.</p>
+                    <a th:href="@{/vermas}"  data-id="23" class="btn btn-light border-danger text-danger fw-bold producto">Ver más</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl-3 grupo-productos brownies" style="display:none;">
+            <div class="card shadow rounded h-100 border-danger">
+                <img src="https://dailyfoods.com.mx/wp-content/uploads/2021/12/Brownie-Daily-2-1024x607.jpeg" alt="brownie_navideño">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-danger">Brownie navideño</h5>
+                    <p class="card-text">Con especias cálidas como canela y clavo, ideal para la temporada.</p>
+                    <a th:href="@{/vermas}"  data-id="24" class="btn btn-light border-danger text-danger fw-bold producto">Ver más</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cupcakes -->
+         <div class="col-12 col-sm-6 col-xl-3 grupo-productos cupcakes" style="display:none;">
+            <div class="card shadow rounded h-100 border-danger">
+                <img src="https://tse4.mm.bing.net/th/id/OIP.PODJt6OUcvAclwswC38vuwHaHa?rs=1&pid=ImgDetMain&o=7&rm=3" alt="cupcake_red_velvet">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-danger">Cupcake Red Velvet</h5>
+                    <p class="card-text">Elegante y aterciopelado, con glaceado blanco de queso crema.</p>
+                    <a th:href="@{/vermas}"  data-id="25" class="btn btn-light border-danger text-danger fw-bold producto">Ver más</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl-3 grupo-productos cupcakes" style="display:none;">
+            <div class="card shadow rounded h-100 border-danger">
+                <img src="https://assets.tmecosys.com/image/upload/t_web767x639/img/recipe/ras/Assets/11EAE394-4A91-4149-9B77-E9F84BB7F7EE/Derivates/DF4D536B-48EF-4B46-82AF-68D9ED18F6E3.jpg" alt="cupcake_platano">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-danger">Cupcake de plátano</h5>
+                    <p class="card-text">Dulce y suave, con sabor natural y toque de canela.</p>
+                    <a th:href="@{/vermas}"  data-id="26" class="btn btn-light border-danger text-danger fw-bold producto">Ver más</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl-3 grupo-productos cupcakes" style="display:none;">
+            <div class="card shadow rounded h-100 border-danger">
+                <img src="https://www.splenda.com/wp-content/uploads/2020/09/keto-vanilla-cupcakes-thumb.jpg" alt="cupcake_vainilla">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-danger">Cupcake de vainilla</h5>
+                    <p class="card-text">Suave y clásico, con sabor delicado y glaseado cremoso.</p>
+                    <a th:href="@{/vermas}"  data-id="27" class="btn btn-light border-danger text-danger fw-bold producto">Ver más</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl-3 grupo-productos cupcakes" style="display:none;">
+            <div class="card shadow rounded h-100 border-danger">
+                <img src="imagenes/cupcake_zanahoria.jpg" alt="cupcake_zanahoria">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-danger">Cupcake de zanahoria</h5>
+                    <p class="card-text">Especiado y jugoso, con nueces y glaseado de queso crema.</p>
+                    <a th:href="@{/vermas}"  data-id="28" class="btn btn-light border-danger text-danger fw-bold producto">Ver más</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panes -->
+         <div class="col-12 col-sm-6 col-xl-3 grupo-productos panes" style="display:none;">
+            <div class="card shadow rounded h-100 border-danger">
+                <img src="imagenes/brioche.jpg" alt="brioche">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-danger">Brioche</h5>
+                    <p class="card-text">Pan dulce muy suave y aireado, con alto contenido de mantequilla y huevo.</p>
+                    <a th:href="@{/vermas}"  data-id="29" class="btn btn-light border-danger text-danger fw-bold producto">Ver más</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl-3 grupo-productos panes" style="display:none;">
+            <div class="card shadow rounded h-100 border-danger">
+                <img src="imagenes/pan_maiz.jpg" alt="pan_maiz">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-danger">Pan de maíz</h5>
+                    <p class="card-text">Hecho con harina de maíz, azúcar y mantequilla con sabor ligeramente dulce.</p>
+                    <a th:href="@{/vermas}"  data-id="30" class="btn btn-light border-danger text-danger fw-bold producto">Ver más</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl-3 grupo-productos panes" style="display:none;">
+            <div class="card shadow rounded h-100 border-danger">
+                <img src="imagenes/paneton.jpg" alt="paneton">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-danger">Panetón</h5>
+                    <p class="card-text">Contiene frutas confitadas, pasas y ralladura de cítricos. Especial para épocas navideñas.</p>
+                    <a th:href="@{/vermas}"  data-id="31" class="btn btn-light border-danger text-danger fw-bold producto">Ver más</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl-3 grupo-productos panes" style="display:none;">
+            <div class="card shadow rounded h-100 border-danger">
+                <img src="imagenes/berlinesa.jpg" alt="berlinesa">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-danger">Berlinesas</h5>
+                    <p class="card-text">Pan frito relleno de crema pastelera, mermelada o dulce de leche. Puro placer en cada mordida.</p>
+                    <a th:href="@{/vermas}"  data-id="32" class="btn btn-light border-danger text-danger fw-bold producto">Ver más</a>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+     <!-- footer -->
+    <footer class="bg-dark text-white pt-4 pb-2">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>Aleyumy Sweet</h5>
+                    <ul class="list-unstyled">
+                        <li><a>aleyumysweet@gmail.com</a></li>
+                        <li><a th:href="@{/trabajo}" class="footer-link">Trabaja con nosotros</a></li>
+                        <li><a th:href="@{/empleado}" class="footer-link">Entrar como Empleado</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Enlaces útiles</h5>
+                    <ul class="list-unstyled">
+                        <li><a th:href="@{/index}" class="footer-link">Inicio</a></li>
+                        <li><a th:href="@{/postres}" class="footer-link">Postres</a></li>
+                        <li><a th:href="@{/pedidos}" class="footer-link">Pedidos</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Redes sociales</h5>
+                    <a href="https://www.facebook.com/share/172HqSMcVx/?mibextid=wwXIfr" class="text-white me-2"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="text-white me-2"><i class="bi bi-whatsapp"></i></a>
+                    <a href="https://www.instagram.com/aleyumy_sweet?igsh=MXF0MnpkMXB6djFnaw==" class="text-white"><i class="bi bi-instagram"></i></a>
+                </div>
+            </div>
+            <hr class="bg-light">
+            <div class="text-center">
+                <small>© 2025 Aleyumy Sweet. Todos los derechos reservados.</small>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    document.querySelectorAll('.producto').forEach(el => {
+        el.addEventListener('click', function(e) {
+        e.preventDefault();
+        const id = this.getAttribute('data-id');
+        localStorage.setItem("productoSeleccionado", id);
+        window.location.href = "/vermas";
+        });
+    });
+
+    document.getElementById("form-compra").addEventListener("submit", function(e) {
+        const carrito = [
+            { id: 1, nombre: "Torta de tres leches", cantidad: 2, precio: 50.00 },
+            { id: 5, nombre: "Galletas de chocolate", cantidad: 1, precio: 24.00 }
+        ];
+
+        if (!carrito || carrito.length === 0) {
+            e.preventDefault();
+            alert("El carrito está vacío");
+            return;
+        }
+
+        document.getElementById("carritoJson").value = JSON.stringify(carrito);
+        console.log("Carrito enviado:", document.getElementById("carritoJson").value);
+});
+    </script>
+
+</body>
+
+</html>

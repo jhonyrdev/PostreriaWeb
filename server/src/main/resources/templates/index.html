@@ -1,0 +1,348 @@
+<!doctype html>
+<html xmlns="http://www.thymeleaf.org">
+  <head>
+    <th:block th:replace="~{fragments/head :: head}"></th:block>
+    <title>Postreria</title>
+    <style>
+      .carousel-control-prev,
+      .carousel-control-next {
+        width: 50px;
+        height: 50px;
+        top: 50%;
+        background-color: #a93232;
+        border-radius: 50%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div th:if="${mensaje}" class="alert alert-success text-center fw-bold">
+      <span th:text="${mensaje}"></span>
+    </div>
+    <div class="container py-3">
+      <div class="row align-items-center">
+        <!-- Logo -->
+        <div class="col-12 col-md-4 text-center text-md-start mb-2 mb-md-0">
+          <a
+            th:href="@{/index}"
+            class="navbar-brand fw-bold"
+            style="
+              font-family: &quot;Montserrat&quot;, cursive;
+              font-size: 2rem;
+              color: #dc3545;
+            "
+            >Aleyumy Sweet</a
+          >
+        </div>
+        <!-- Buscador -->
+        <div class="col-12 col-md-6">
+          <form class="d-flex" role="search">
+            <input
+              class="form-control rounded-start"
+              type="search"
+              placeholder="Buscar productos..."
+              aria-label="Buscar"
+            />
+            <button class="btn btn-outline-danger rounded-end" type="submit">
+              Buscar
+            </button>
+          </form>
+        </div>
+        <!-- Botón de inicio de sesión -->
+        <div class="col-12 col-md-2 text-end">
+          <!-- Si hay usuario en sesión -->
+          <th:block th:if="${session.usuarioLogueado != null}">
+            <div class="dropdown">
+              <button
+                class="btn btn-success dropdown-toggle"
+                type="button"
+                id="usuarioMenu"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <span th:text="${session.usuarioLogueado.nombre}"></span>
+              </button>
+              <ul
+                class="dropdown-menu dropdown-menu-end"
+                aria-labelledby="usuarioMenu"
+              >
+                <li>
+                  <a class="dropdown-item" th:href="@{/perfil}">Perfil</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" th:href="@{/logout}"
+                    >Cerrar sesión</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </th:block>
+
+          <!-- Si NO hay usuario en sesión -->
+          <th:block th:if="${session.usuarioLogueado == null}">
+            <a th:href="@{/login}" class="btn btn-danger">Iniciar sesión</a>
+          </th:block>
+        </div>
+      </div>
+    </div>
+
+    <!-- Barra inferior con menú responsive y botón a la derecha -->
+    <nav class="navbar navbar-expand-md bg-white border-top">
+      <div class="container">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div
+          class="collapse navbar-collapse justify-content-center"
+          id="navbarNav"
+        >
+          <ul
+            class="navbar-nav fw-semibold text-center"
+            style="gap: 3rem; display: flex"
+          >
+            <li class="nav-item">
+              <a
+                th:href="@{/index}"
+                class="nav-link text-danger border-bottom border-3 border-danger active"
+                >Inicio</a
+              >
+            </li>
+            <li class="nav-item">
+              <a th:href="@{/postres}" class="nav-link text-dark">
+                <i class="bi bi-cake-fill"></i> Nuestra Carta
+              </a>
+            </li>
+            <li class="nav-item">
+              <a th:href="@{/nosotros}" class="nav-link text-dark">Nosotros</a>
+            </li>
+            <li class="nav-item">
+              <a th:href="@{/contacto}" class="nav-link text-dark">Contacto</a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Botón Pedidos con ícono carrito -->
+        <div class="d-none d-md-block">
+          <a
+            th:href="@{/pedidos}"
+            class="btn btn-warning rounded-pill d-flex align-items-center gap-2 pedido-btn"
+            style="
+              background-color: #d9b89c;
+              border: none;
+              color: #4a3c32;
+              padding: 0.5rem 1.2rem;
+              font-size: 1rem;
+              font-weight: normal;
+            "
+          >
+            <i class="bi bi-cart4"></i> Pedidos
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- carrusel -->
+    <div class="container-fluid px-0">
+      <div id="miCarrusel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img
+              src="https://cdn0.bodas.com.mx/article-vendor/7168/original/1280/jpg/img-7751_5_117168-157852066273315.jpeg"
+              class="d-block w-100"
+              alt="Tortita fresa"
+            />
+          </div>
+          <div class="carousel-item">
+            <img
+              src="imagenes/alfajor.jpg"
+              class="d-block w-100"
+              alt="Alfajor"
+            />
+          </div>
+          <div class="carousel-item">
+            <img
+              src="imagenes/chocolate.jpg"
+              class="d-block w-100"
+              alt="Chocolate"
+            />
+          </div>
+        </div>
+
+        <!-- Botón anterior -->
+        <button
+          class="carousel-control-prev"
+          type="button"
+          data-bs-target="#miCarrusel"
+          data-bs-slide="prev"
+        >
+          <span
+            class="carousel-control-prev-icon custom-arrow"
+            aria-hidden="true"
+          ></span>
+          <span class="visually-hidden">Anterior</span>
+        </button>
+
+        <!-- Botón siguiente -->
+        <button
+          class="carousel-control-next"
+          type="button"
+          data-bs-target="#miCarrusel"
+          data-bs-slide="next"
+        >
+          <span
+            class="carousel-control-next-icon custom-arrow"
+            aria-hidden="true"
+          ></span>
+          <span class="visually-hidden">Siguiente</span>
+        </button>
+      </div>
+    </div>
+    <!-- Sección Promociones estilo Maria Almenara -->
+    <div class="container my-5">
+      <h2 class="text-center fw-bold mb-5">Nuestras Promociones</h2>
+
+      <div class="row g-5">
+        <!-- Promo 1 -->
+        <div class="col-12 col-md-6">
+          <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+            <img
+              src="imagenes/tortita_fresa.jpg"
+              class="img-fluid"
+              alt="Tortita Fresa"
+            />
+
+            <div class="p-4">
+              <h4 class="fw-bold">Promo 2x1 en Tortitas</h4>
+              <p class="mb-4">
+                Disfruta nuestras tortitas frescas con una oferta especial ideal
+                para compartir.
+              </p>
+              <a class="btn btn-danger px-4 py-2 rounded-3 fw-semibold">
+                Ver detalles
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Promo 2 -->
+        <div class="col-12 col-md-6">
+          <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+            <img src="imagenes/alfajor.jpg" class="img-fluid" alt="Alfajor" />
+
+            <div class="p-4">
+              <h4 class="fw-bold">Alfajor Gratis</h4>
+              <p class="mb-4">
+                Llévate un delicioso alfajor artesanal por la compra de
+                cualquier postre seleccionado.
+              </p>
+              <a class="btn btn-danger px-4 py-2 rounded-3 fw-semibold">
+                Ver detalles
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Promo 3 -->
+        <div class="col-12 col-md-6">
+          <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+            <img
+              src="imagenes/chocolate.jpg"
+              class="img-fluid"
+              alt="Chocolate"
+            />
+            <div class="p-4">
+              <h4 class="fw-bold">Descuento en Chocolates</h4>
+              <p class="mb-4">
+                Chocolates artesanales con precio especial por tiempo limitado.
+              </p>
+              <a class="btn btn-danger px-4 py-2 rounded-3 fw-semibold">
+                Ver detalles
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Promo 4 -->
+        <div class="col-12 col-md-6">
+          <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+            <img
+              src="https://cdn0.matrimonios.cl/article/1161/3_2/960/png/51611-portada-77.jpeg"
+              class="img-fluid"
+              alt="Torta Vainilla"
+            />
+            <div class="p-4">
+              <h4 class="fw-bold">Combo Familiar de Tortas</h4>
+              <p class="mb-4">
+                Elige sabores favoritos y celebra grandes momentos en familia.
+              </p>
+              <a class="btn btn-danger px-4 py-2 rounded-3 fw-semibold">
+                Ver detalles
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- footer -->
+    <footer class="bg-dark text-white pt-4 pb-2">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <h5>Aleyumy Sweet</h5>
+            <ul class="list-unstyled">
+              <li><a>aleyumysweet@gmail.com</a></li>
+              <li>
+                <a th:href="@{/trabajo}" class="footer-link"
+                  >Trabaja con nosotros</a
+                >
+              </li>
+              <li>
+                <a th:href="@{/empleado}" class="footer-link"
+                  >Entrar como Empleado</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-4">
+            <h5>Enlaces útiles</h5>
+            <ul class="list-unstyled">
+              <li><a th:href="@{/index}" class="footer-link">Inicio</a></li>
+              <li><a th:href="@{/postres}" class="footer-link">Postres</a></li>
+              <li><a th:href="@{/pedidos}" class="footer-link">Pedidos</a></li>
+            </ul>
+          </div>
+          <div class="col-md-4">
+            <h5>Redes sociales</h5>
+            <a
+              href="https://www.facebook.com/share/172HqSMcVx/?mibextid=wwXIfr"
+              class="text-white me-2"
+              ><i class="bi bi-facebook"></i
+            ></a>
+            <a href="#" class="text-white me-2"
+              ><i class="bi bi-whatsapp"></i
+            ></a>
+            <a
+              href="https://www.instagram.com/aleyumy_sweet?igsh=MXF0MnpkMXB6djFnaw=="
+              class="text-white"
+              ><i class="bi bi-instagram"></i
+            ></a>
+          </div>
+        </div>
+        <hr class="bg-light" />
+        <div class="text-center">
+          <small>© 2025 Aleyumy Sweet. Todos los derechos reservados.</small>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

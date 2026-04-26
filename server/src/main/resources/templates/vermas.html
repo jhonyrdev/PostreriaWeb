@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestra Carta</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+</head>
+<body>
+<div class="container py-3">
+    <div class="row align-items-center">
+      <!-- Logo -->
+      <div class="col-12 col-md-4 text-center text-md-start mb-2 mb-md-0">
+        <a th:href="@{/index}" class="navbar-brand fw-bold" style="font-family: 'Montserrat', cursive; font-size: 2rem; color: #dc3545;">Aleyumy Sweet</a>
+      </div>
+      <!-- Buscador -->
+      <div class="col-12 col-md-6">
+        <form class="d-flex" role="search">
+          <input class="form-control rounded-start" type="search" placeholder="Buscar productos..." aria-label="Buscar" />
+          <button class="btn btn-outline-danger rounded-end" type="submit">Buscar</button>
+        </form>
+      </div>
+      <!-- Botón de inicio de sesión -->
+     <div class="col-12 col-md-2 text-end">
+  <!-- Si hay usuario en sesión -->
+  <th:block th:if="${session.usuarioLogueado != null}">
+    <div class="dropdown">
+      <button class="btn btn-success dropdown-toggle" type="button" id="usuarioMenu"
+              data-bs-toggle="dropdown" aria-expanded="false">
+        <span th:text="${session.usuarioLogueado.nombre}"></span>
+      </button>
+      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="usuarioMenu">
+        <li><a class="dropdown-item" th:href="@{/perfil}">Perfil</a></li>
+        <li><a class="dropdown-item" th:href="@{/logout}">Cerrar sesión</a></li>
+      </ul>
+    </div>
+  </th:block>
+
+  <!-- Si NO hay usuario en sesión -->
+  <th:block th:if="${session.usuarioLogueado == null}">
+    <a th:href="@{/login}" class="btn btn-danger">Iniciar sesión</a>
+  </th:block>
+</div>
+    </div>
+  </div>
+  
+   <!-- Barra inferior con menú responsive y botón a la derecha -->
+  <nav class="navbar navbar-expand-md bg-white border-top">
+    <div class="container">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+       <ul class="navbar-nav fw-semibold text-center" style="gap: 3rem; display: flex;">
+        <li class="nav-item">
+          <a th:href="@{/index}" class="nav-link text-dark">Inicio</a>
+        </li>
+        <li class="nav-item">
+          <a th:href="@{/postres}" class="nav-link text-danger border-bottom border-3 border-danger active">
+            <i class="bi bi-cake-fill"></i> Nuestra Carta
+          </a>
+        </li>
+        <li class="nav-item">
+          <a th:href="@{/nosotros}" class="nav-link text-dark">Nosotros</a>
+        </li>
+        <li class="nav-item">
+          <a th:href="@{/contacto}" class="nav-link text-dark">Contacto</a>
+        </li>
+      </ul>
+    </div>
+
+
+      <!-- Botón Pedidos con ícono carrito -->
+      <div class="d-none d-md-block">
+        <a th:href="@{/pedidos}"
+          class="btn btn-warning rounded-pill d-flex align-items-center gap-2 pedido-btn"
+          style="background-color: #d9b89c; border: none; color: #4a3c32;  padding: 0.5rem 1.2rem; font-size: 1rem; font-weight: normal;">
+          <i class="bi bi-cart4"></i> Pedidos
+        </a>
+      </div>
+  </nav>
+
+
+  <div class="container p-4">
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card shadow rounded-4">
+                <div class="card-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xl-6">
+                                <img id="imagen" src="" alt="Imagen del producto" class="img-fluid rounded mb-3">
+                            </div>
+                            <div class="col-xl-6">
+                              <div class="card bg-light border-0 rounded-3">
+                                <div class="card-body">
+                                  <h1 class="text-dark fw-bold" id="nombre"></h1>
+                                  <hr>
+                                  <h2 class="fw-bold text-danger" id="precio"></h2>
+                                  <p id="descripcion"></p>
+                                  <p class="text-secondary small">*Imagen Referencial</p>
+                                  <button id="btn-agregar" class="btn btn-danger rounded-4 text-light fw-bold mt-3"><i class="bi bi-cart4"></i> Agregar al carrito</button>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p id="alerta" style="color: green; font-weight: bold; display: none;">
+      Producto agregado al carrito 🍰
+    </p>
+    <a th:href="@{/postres}" class="btn btn-danger text-light mt-2 fw-bold">Volver</a>
+  </div>
+  
+
+   
+     <!-- footer -->
+    <footer class="bg-dark text-white pt-4 pb-2">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>Aleyumy Sweet</h5>
+                    <ul class="list-unstyled">
+                        <li><a>aleyumysweet@gmail.com</a></li>
+                        <li><a th:href="@{/trabajo}" class="footer-link">Trabaja con nosotros</a></li>
+                        <li><a th:href="@{/empleado}" class="footer-link">Entrar como Empleado</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Enlaces útiles</h5>
+                    <ul class="list-unstyled">
+                        <li><a th:href="@{/index}" class="footer-link">Inicio</a></li>
+                        <li><a th:href="@{/postres}" class="footer-link">Postres</a></li>
+                        <li><a th:href="@{/pedidos}" class="footer-link">Pedidos</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Redes sociales</h5>
+                    <a href="https://www.facebook.com/share/172HqSMcVx/?mibextid=wwXIfr" class="text-white me-2"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="text-white me-2"><i class="bi bi-whatsapp"></i></a>
+                    <a href="https://www.instagram.com/aleyumy_sweet?igsh=MXF0MnpkMXB6djFnaw==" class="text-white"><i class="bi bi-instagram"></i></a>
+                </div>
+            </div>
+            <hr class="bg-light">
+            <div class="text-center">
+                <small>© 2025 Aleyumy Sweet. Todos los derechos reservados.</small>
+            </div>
+        </div>
+    </footer>
+
+<script src="js/carrito.js"></script> 
+<script src="js/vermas.js"></script> 
+</body>
+</html>

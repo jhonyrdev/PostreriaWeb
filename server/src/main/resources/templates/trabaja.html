@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+
+<head>
+    
+    <th:block th:replace="~{fragments/head :: head}"></th:block>
+    <title>Postreria | Únete a nosotros</title>
+    <style>
+        body,
+        html {
+            height: 100%;
+        }
+
+        .left-panel {
+            background: linear-gradient(135deg, #b71c1c, #e53935);
+            /* degradado rojo */
+            color: white;
+            border-top-right-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 2rem;
+        }
+
+        .section-title {
+            margin-top: 2rem;
+            font-weight: bold;
+            color: #b71c1c;
+        }
+
+        .footer-link {
+            text-decoration: none;
+            color: white;
+        }
+
+        .footer-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script src="script.js"></script>
+</head>
+<div class="container py-3">
+    <div class="row align-items-center">
+        <!-- Logo -->
+        <div class="col-12 col-md-4 text-center text-md-start mb-2 mb-md-0">
+            <a th:href="@{/index}" class="navbar-brand fw-bold"
+                style="font-family: 'Montserrat', cursive; font-size: 2rem; color: #dc3545;">Aleyumy Sweet</a>
+        </div>
+        <!-- Buscador -->
+        <div class="col-12 col-md-6">
+            <form class="d-flex" role="search">
+                <input class="form-control rounded-start" type="search" placeholder="Buscar productos..."
+                    aria-label="Buscar" />
+                <button class="btn btn-outline-danger rounded-end" type="submit">Buscar</button>
+            </form>
+        </div>
+        <!-- Botón de inicio de sesión -->
+        <div class="col-12 col-md-2 text-end">
+  <!-- Si hay usuario en sesión -->
+  <th:block th:if="${session.usuarioLogueado != null}">
+    <div class="dropdown">
+      <button class="btn btn-success dropdown-toggle" type="button" id="usuarioMenu"
+              data-bs-toggle="dropdown" aria-expanded="false">
+        <span th:text="${session.usuarioLogueado.nombre}"></span>
+      </button>
+      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="usuarioMenu">
+        <li><a class="dropdown-item" th:href="@{/perfil}">Perfil</a></li>
+        <li><a class="dropdown-item" th:href="@{/logout}">Cerrar sesión</a></li>
+      </ul>
+    </div>
+  </th:block>
+
+  <!-- Si NO hay usuario en sesión -->
+  <th:block th:if="${session.usuarioLogueado == null}">
+    <a th:href="@{/login}" class="btn btn-danger">Iniciar sesión</a>
+  </th:block>
+</div>
+    </div>
+</div>
+
+  <!-- Barra inferior con menú responsive y botón a la derecha -->
+  <nav class="navbar navbar-expand-md bg-white border-top">
+    <div class="container">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+       <ul class="navbar-nav fw-semibold text-center" style="gap: 3rem; display: flex;">
+        <li class="nav-item">
+          <a th:href="@{/index}" class="nav-link text-dark">Inicio</a>
+        </li>
+        <li class="nav-item">
+          <a th:href="@{/postres}" class="nav-link text-dark">
+            <i class="bi bi-cake-fill"></i> Nuestra Carta
+          </a>
+        </li>
+        <li class="nav-item">
+          <a th:href="@{/nosotros}" class="nav-link text-dark">Nosotros</a>
+        </li>
+        <li class="nav-item">
+          <a th:href="@{/contacto}" class="nav-link text-dark">Contacto</a>
+        </li>
+      </ul>
+    </div>
+
+
+      <!-- Botón Pedidos con ícono carrito -->
+      <div class="d-none d-md-block">
+        <a th:href="@{/pedidos}"
+          class="btn btn-warning rounded-pill d-flex align-items-center gap-2 pedido-btn"
+          style="background-color: #d9b89c; border: none; color: #4a3c32;  padding: 0.5rem 1.2rem; font-size: 1rem; font-weight: normal;">
+          <i class="bi bi-cart4"></i> Pedidos
+        </a>
+      </div>
+  </nav>
+
+
+
+<body class="d-flex flex-column min-vh-100">
+    <div class="container-fluid flex-grow-1">
+        <div class="row h-100">
+            <!-- Panel izquierdo -->
+            <div
+                class="col-md-4 left-panel d-none d-md-flex flex-column justify-content-center align-items-center text-center p-4">
+                <div class="mb-3">
+                    <img src="imagenes/logo.jpg"
+                        class="rounded-circle d-inline-flex align-items-center justify-content-center"
+                        style="width:120px; height:120px; font-weight:bold;">
+                </div>
+                <h4 class="fw-bold">¡Únete a nuestro equipo!</h4>
+                <p class="text-light" style="max-width: 250px;">
+                    Forma parte de una empresa en crecimiento, donde valoramos el talento y la pasión por lo que
+                    hacemos.
+                </p>
+            </div>
+
+            <!-- Panel derecho -->
+            <div class="col-md-7 d-flex align-items-center">
+                <div class="form-container w-100">
+                    <h2 class="mb-3">Trabajo con nosotros</h2>
+                    <p class="text-muted">Completa el siguiente formulario para postular a nuestras vacantes.</p>
+
+                    <form th:action="@{/agregarPostulacion}" th:object="${postulacion}" method="post">
+                        <!-- Datos personales -->
+                        <h5 class="section-title">Datos personales</h5>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Nombres</label>
+                                <input type="text" class="form-control" th:field="*{nombre}" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Apellidos</label>
+                                <input type="text" class="form-control" th:field="*{apellido}" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">DNI / Pasaporte</label>
+                                <input type="text" class="form-control" th:field="*{dni}" required>
+                            </div>
+                        </div>
+
+                        <!-- Contacto -->
+                        <h5 class="section-title">Contacto</h5>
+                        <div class="row">
+                            
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Teléfono</label>
+                                <input type="tel" class="form-control" th:field="*{telefono}" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" th:field="*{correo}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Dirección</label>
+                            <input type="text" class="form-control" th:field="*{direccion}" required>
+                        </div>
+
+                        <!-- CV -->
+
+                        <!-- Consentimiento -->
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="consent" required>
+                            <label class="form-check-label" for="consent">
+                                Acepto el tratamiento de mis datos personales según la <a href="#">Política de
+                                    Privacidad</a>.
+                            </label>
+                        </div>
+
+                        <!-- Botón -->
+                        <button type="submit" class="btn btn-danger w-100">Enviar postulación</button>
+        
+                    </form>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <!-- footer -->
+    <footer class="bg-dark text-white pt-4 pb-2">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>Aleyumy Sweet</h5>
+                    <ul class="list-unstyled">
+                        <li><a>aleyumysweet@gmail.com</a></li>
+                        <li><a th:href="@{/trabajo}" class="footer-link">Trabaja con nosotros</a></li>
+                        <li><a th:href="@{/empleado}" class="footer-link">Entrar como Empleado</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Enlaces útiles</h5>
+                    <ul class="list-unstyled">
+                        <li><a th:href="@{/index}" class="footer-link">Inicio</a></li>
+                        <li><a th:href="@{/postres}" class="footer-link">Postres</a></li>
+                        <li><a th:href="@{/pedidos}" class="footer-link">Pedidos</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Redes sociales</h5>
+                    <a href="https://www.facebook.com/share/172HqSMcVx/?mibextid=wwXIfr" class="text-white me-2"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="text-white me-2"><i class="bi bi-whatsapp"></i></a>
+                    <a href="https://www.instagram.com/aleyumy_sweet?igsh=MXF0MnpkMXB6djFnaw==" class="text-white"><i class="bi bi-instagram"></i></a>
+                </div>
+            </div>
+            <hr class="bg-light">
+            <div class="text-center">
+                <small>© 2025 Aleyumy Sweet. Todos los derechos reservados.</small>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+
+<head>
+
+  <th:block th:replace="~{fragments/head :: head}"></th:block>
+  <title>Pedidos - Aleyumy Sweet</title>
+  <script src="js/postres.js"></script>
+
+</head>
+
+<body>
+
+  <!-- BOTÓN DE RETROCESO + TÍTULO principal -->
+  <div class="container py-3 position-relative">
+
+    <!-- Botón retroceso -->
+    <a th:href="@{/index}" class="btn btn-outline-danger position-absolute"
+      style="left: 0; top: 50%; transform: translateY(-50%); border-radius: 50%;">
+      <i class="bi bi-arrow-left"></i>
+    </a>
+
+    <!-- Título estilo María Almenara -->
+    <h1 class="text-center fw-bold" style="font-family: 'Montserrat', cursive; font-size: 3rem; color: #dc3545;">
+      Aleyumy Sweet
+    </h1>
+
+  </div>
+  <div th:if="${mensaje}" class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong th:text="${mensaje}"></strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+
+  <!-- CONTENIDO -->
+  <div class="container py-4">
+    <div class="row g-4">
+
+      <!-- IZQUIERDA -->
+      <div class="col-lg-6">
+        <form id="form-compra" method="post" th:action="@{/realizarCompra}">
+          <!-- DATOS PERSONALES -->
+          <div class="card shadow-sm p-4 mb-3">
+            <h4 class="fw-bold mb-3"><i class="bi bi-person-fill me-2"></i>Datos personales</h4>
+            <div class="row g-3">
+              <div class="col-md-6"><input type="text" name="nombres" class="form-control" placeholder="Nombres"
+                  required></div>
+              <div class="col-md-6"><input type="text" name="apellidos" class="form-control" placeholder="Apellidos"
+                  required></div>
+              <div class="col-md-6"><input type="email" name="correo" class="form-control"
+                  placeholder="Correo electrónico" required></div>
+              <div class="col-md-6"><input type="text" name="telefono" class="form-control" placeholder="Teléfono"
+                  required></div>
+            </div>
+          </div>
+
+          <!-- DIRECCIÓN -->
+          <div class="card shadow-sm p-4 mb-3">
+            <h4 class="fw-bold mb-3"><i class="bi bi-geo-alt-fill me-2"></i>Dirección de entrega</h4>
+            <div class="row g-3">
+              <div class="col-12"><input type="text" name="direccion" class="form-control"
+                  placeholder="Dirección completa" required></div>
+              <div class="col-md-6"><input type="text" name="ciudad" class="form-control"
+                  placeholder="Ciudad / Distrito" required></div>
+              <div class="col-md-6"><input type="text" name="codigoPostal" class="form-control"
+                  placeholder="Código postal" required></div>
+            </div>
+          </div>
+
+          <!-- MÉTODO DE PAGO -->
+          <div class="card shadow-sm p-4 mb-3">
+            <h4 class="fw-bold mb-3"><i class="bi bi-credit-card-2-front-fill me-2"></i>Método de pago</h4>
+
+            <div class="form-check mb-2">
+              <input class="form-check-input" type="radio" name="pago" value="tarjeta" required
+                onclick="mostrarPago('tarjeta')">
+              <label class="form-check-label">Pago con tarjeta</label>
+            </div>
+
+            <div class="form-check mb-2">
+              <input class="form-check-input" type="radio" name="pago" value="yape" onclick="mostrarPago('yape')">
+              <label class="form-check-label">Pago con Yape / Plin</label>
+            </div>
+
+            <div class="form-check mb-4">
+              <input class="form-check-input" type="radio" name="pago" value="tienda" onclick="mostrarPago('tienda')">
+              <label class="form-check-label">Pago en tienda</label>
+            </div>
+
+            <!-- FORM TARJETA -->
+            <div id="tarjeta-form" class="mt-3" style="display: none;">
+              <h5 class="fw-bold">Datos de la tarjeta</h5>
+              <input type="text" class="form-control mb-2" placeholder="Número de tarjeta">
+              <div class="row">
+                <div class="col-md-6">
+                  <input type="text" class="form-control mb-2" placeholder="MM/AA">
+                </div>
+                <div class="col-md-6">
+                  <input type="text" class="form-control mb-2" placeholder="CVV">
+                </div>
+              </div>
+            </div>
+
+            <!-- FORM YAPE / PLIN -->
+            <div id="yape-form" class="mt-3" style="display: none;">
+              <h5 class="fw-bold">Pago con Yape / Plin</h5>
+              <p class="text-muted mb-2">Escanea el QR para completar el pago</p>
+              <img src="imagenes/Qryape.jpg" alt="QR Yape Plin" class="img-fluid rounded" style="max-width: 240px;">
+            </div>
+
+          </div>
+      </div>
+
+      <!-- DERECHA -->
+      <div class="col-lg-6">
+        <h3 class="mb-4 text-center text-md-start">Resumen de tu pedido</h3>
+
+        <p id="carrito-vacio" class="text-center fw-bold text-secondary" style="display: none;">
+          Ups! El carrito está vacío, <a th:href="@{/postres}">elige algunos productos</a>
+        </p>
+
+        <section id="carrito-container" class="row gy-3"></section>
+
+        <!-- Totales con combo de moneda -->
+        <section id="totales" class="mt-4" style="display: none;">
+          <div class="text-end">
+            <p>Total unidades: <span id="cantidad">0</span></p>
+            <h4>Total general: S/. <span id="total-general">0.00</span></h4>
+
+            <!-- Combo box para cambiar moneda -->
+            <div class="mt-3">
+              <label for="moneda">Cambiar a: </label>
+              <select id="moneda" onchange="convertirMoneda()">
+                <option value="USD">USD</option>
+                <option value="EUR">EUR</option>
+                <option value="PEN" selected>PEN</option>
+              </select>
+              <p id="total-convertido"></p>
+            </div>
+
+            <div class="d-flex justify-content-end gap-3 mt-3">
+              <input type="hidden" name="carritoJson" id="carritoJson">
+              <button type="submit" form="form-compra" class="btn btn-success">Comprar</button>
+              <button id="reiniciar" type="button" class="btn btn-outline-danger"
+                onclick="reiniciarCarrito()">Reiniciar</button>
+            </div>
+          </div>
+        </section>
+      </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-dark text-white pt-4 pb-2 w-100">
+    <div class="container-fluid">
+
+      <div class="text-center">
+        <small>© 2025 Aleyumy Sweet. Todos los derechos reservados.</small>
+      </div>
+
+    </div>
+  </footer>
+
+  <script>
+    function mostrarPago(metodo) {
+      document.getElementById('tarjeta-form').style.display = metodo === 'tarjeta' ? 'block' : 'none';
+      document.getElementById('yape-form').style.display = metodo === 'yape' ? 'block' : 'none';
+    }
+
+    function compraRealizada() {
+      alert("¡Compra realizada con éxito!");
+    }
+
+  </script>
+
+  <script>
+    async function convertirMoneda() {
+      // Obtiene el monto actual en soles (PEN)
+      const monto = parseFloat(document.getElementById("total-general").innerText);
+      const destino = document.getElementById("moneda").value;
+
+      try {
+        // Llamada al backend Spring Boot
+        const res = await fetch(`http://localhost:8009/api/convertidor/convertir?destino=${destino}&monto=${monto}`);
+        const data = await res.json();
+
+        // Actualiza el resultado en el HTML
+        document.getElementById("total-convertido").innerText =
+          `Total en ${destino}: ${data.toFixed(2)} ${destino}`;
+      } catch (error) {
+        console.error("Error al convertir:", error);
+        document.getElementById("total-convertido").innerText =
+          "Error al obtener la conversión";
+      }
+    }
+  </script>
+
+  <script src="/js/pedidos.js" defer></script>
+
+</body>
+
+</html>

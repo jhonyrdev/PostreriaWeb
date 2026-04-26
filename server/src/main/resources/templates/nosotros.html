@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+
+<head>
+    
+  <th:block th:replace="~{fragments/head :: head}"></th:block>
+  <title>Sobre Nosotros</title>
+  <style>
+    .text-justificado {
+      text-align: justify;
+    }
+
+    .card-mision {
+      background-color: #fff3e0;
+      color: #4d3c32;
+    }
+
+    .card-mision h5 {
+      color: #b76e4c;
+    }
+  </style>
+  <script src="js/postres.js"></script>
+  
+</head>
+<div class="container py-3">
+  <div class="row align-items-center">
+    <!-- Logo -->
+    <div class="col-12 col-md-4 text-center text-md-start mb-2 mb-md-0">
+      <a th:href="@{/index}" class="navbar-brand fw-bold"
+        style="font-family: 'Montserrat', cursive; font-size: 2rem; color: #dc3545;">Aleyumy Sweet</a>
+    </div>
+    <!-- Buscador -->
+    <div class="col-12 col-md-6">
+      <form class="d-flex" role="search">
+        <input class="form-control rounded-start" type="search" placeholder="Buscar productos..." aria-label="Buscar" />
+        <button class="btn btn-outline-danger rounded-end" type="submit">Buscar</button>
+      </form>
+    </div>
+    <!-- Botón de inicio de sesión -->
+    <div class="col-12 col-md-2 text-end">
+      <!-- Si hay usuario en sesión -->
+      <th:block th:if="${session.usuarioLogueado != null}">
+        <div class="dropdown">
+          <button class="btn btn-success dropdown-toggle" type="button" id="usuarioMenu" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            <span th:text="${session.usuarioLogueado.nombre}"></span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="usuarioMenu">
+            <li><a class="dropdown-item" th:href="@{/perfil}">Perfil</a></li>
+            <li><a class="dropdown-item" th:href="@{/logout}">Cerrar sesión</a></li>
+          </ul>
+        </div>
+      </th:block>
+
+      <!-- Si NO hay usuario en sesión -->
+      <th:block th:if="${session.usuarioLogueado == null}">
+        <a th:href="@{/login}" class="btn btn-danger">Iniciar sesión</a>
+      </th:block>
+    </div>
+  </div>
+</div>
+
+<!-- Barra inferior con menú responsive y botón a la derecha -->
+<nav class="navbar navbar-expand-md bg-white border-top">
+  <div class="container">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+      <ul class="navbar-nav fw-semibold text-center" style="gap: 3rem; display: flex;">
+        <li class="nav-item">
+          <a th:href="@{/index}" class="nav-link text-dark">Inicio</a>
+        </li>
+        <li class="nav-item">
+          <a th:href="@{/postres}" class="nav-link text-dark">
+            <i class="bi bi-cake-fill"></i> Nuestra Carta
+          </a>
+        </li>
+        <li class="nav-item">
+          <a th:href="@{/nosotros}"
+            class="nav-link text-danger border-bottom border-3 border-danger active">Nosotros</a>
+        </li>
+        <li class="nav-item">
+          <a th:href="@{/contacto}" class="nav-link text-dark">Contacto</a>
+        </li>
+
+      </ul>
+    </div>
+
+
+    <!-- Botón Pedidos con ícono carrito -->
+    <div class="d-none d-md-block">
+      <a th:href="@{/pedidos}" class="btn btn-warning rounded-pill d-flex align-items-center gap-2 pedido-btn"
+        style="background-color: #d9b89c; border: none; color: #4a3c32;  padding: 0.5rem 1.2rem; font-size: 1rem; font-weight: normal;">
+        <i class="bi bi-cart4"></i> Pedidos
+      </a>
+    </div>
+  </div>
+</nav>
+
+
+<div class="container py-5">
+  <div class="text-center mb-5">
+    <h2 class="fw-bold titulo-negro">¿Quiénes somos?</h2>
+  </div>
+
+  <div class="row align-items-center mb-5">
+    <div class="col-12 col-lg-6">
+      <p class="text-justificado">
+        En Aleyumy Sweet, creemos que la pastelería es más que una tradición: es una experiencia que evoluciona. Somos
+        un equipo apasionado por reinventar los postres clásicos con un toque moderno, combinando técnicas artesanales
+        con innovación culinaria para sorprender cada paladar.
+      </p>
+      <p class="text-justificado">
+        Cada creación que sale de nuestro obrador está pensada para despertar emociones: desde mousses con texturas
+        inesperadas hasta tartas que fusionan sabores del mundo con ingredientes locales de primera calidad. Nos
+        obsesiona la perfección en cada detalle —desde la presentación hasta el equilibrio de sabores— porque sabemos
+        que un buen postre no solo se disfruta, se recuerda.
+      </p>
+      <p class="text-justificado">
+        Nuestro compromiso es ofrecer productos frescos, creativos y honestos, elaborados con insumos seleccionados y
+        procesos que garantizan calidad constante. Ya sea para una celebración especial o un antojo cotidiano, en
+        Aleyumy Sweet encontrarás el sabor que transforma lo cotidiano en extraordinario.
+      </p>
+    </div>
+    <div class="col-12 col-lg-6 text-center">
+      <img
+        src="https://cdn.businessinsider.es/sites/navi.axelspringer.es/public/media/image/2025/04/persona-haciendo-tarta-4312190.jpg?tf=3840x"
+        class="img-fluid rounded shadow" alt="Persona haciendo tarta">
+    </div>
+  </div>
+
+  <div class="row text-center g-4">
+    <!-- Misión -->
+    <div class="col-12 col-md-4">
+      <div class="p-4 shadow-sm rounded card-mision">
+        <img
+          src="https://media.istockphoto.com/id/921788748/es/foto/retrato-de-pasteler%C3%ADa-decoraci%C3%B3n-de-pastel-en-cocina-de-restaurante.jpg?s=612x612&w=0&k=20&c=16gBcdMu72fWXUS9Gzrt-I6vkEem_7iPovROLOyrUFc="
+          class="img-fluid rounded mb-3" alt="Decoración de pastel">
+        <h5 class="fw-bold">Nuestra Misión</h5>
+        <p>
+          Alegrar a nuestros clientes en celebraciones y momentos especiales con postres únicos, preparados con amor y
+          dedicación.
+        </p>
+      </div>
+    </div>
+    <!-- Visión -->
+    <div class="col-12 col-md-4">
+      <div class="p-4 shadow-sm rounded card-mision">
+        <img
+          src="https://media.istockphoto.com/id/1370529871/es/foto/manos-del-chef-rociando-harina-sobre-la-masa.jpg?s=612x612&w=0&k=20&c=n6Fx1MihuhfzJQp9BubI_8iL2TE7a0i4peSxiZ142jc="
+          class="img-fluid rounded mb-3" alt="Manos rociando harina">
+        <h5 class="fw-bold">Nuestra Visión</h5>
+        <p>
+          Ser una pastelería reconocida por su calidad, creatividad e innovación, llevando lo tradicional a un nivel
+          internacional.
+        </p>
+      </div>
+    </div>
+    <!-- Valores / Propósito -->
+    <div class="col-12 col-md-4">
+      <div class="p-4 shadow-sm rounded card-mision">
+        <img
+          src="https://cdn.businessinsider.es/sites/navi.axelspringer.es/public/media/image/2025/04/persona-haciendo-tarta-4312190.jpg?tf=3840x"
+          class="img-fluid rounded mb-3" alt="Decoración de pastel">
+        <h5 class="fw-bold">¿Qué buscamos como empresa?</h5>
+        <p>
+          Ofrecer productos frescos y honestos, destacando la excelencia, la pasión por lo que hacemos y la satisfacción
+          de nuestros clientes.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- footer -->
+<footer class="bg-dark text-white pt-4 pb-2">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <h5>Aleyumy Sweet</h5>
+        <ul class="list-unstyled">
+          <li><a>aleyumysweet@gmail.com</a></li>
+          <li><a th:href="@{/trabajo}" class="footer-link">Trabaja con nosotros</a></li>
+          <li><a th:href="@{/empleado}" class="footer-link">Entrar como Empleado</a></li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <h5>Enlaces útiles</h5>
+        <ul class="list-unstyled">
+          <li><a th:href="@{/index}" class="footer-link">Inicio</a></li>
+          <li><a th:href="@{/postres}" class="footer-link">Postres</a></li>
+          <li><a th:href="@{/pedidos}" class="footer-link">Pedidos</a></li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <h5>Redes sociales</h5>
+        <a href="https://www.facebook.com/share/172HqSMcVx/?mibextid=wwXIfr" class="text-white me-2"><i
+            class="bi bi-facebook"></i></a>
+        <a href="#" class="text-white me-2"><i class="bi bi-whatsapp"></i></a>
+        <a href="https://www.instagram.com/aleyumy_sweet?igsh=MXF0MnpkMXB6djFnaw==" class="text-white"><i
+            class="bi bi-instagram"></i></a>
+      </div>
+    </div>
+    <hr class="bg-light">
+    <div class="text-center">
+      <small>© 2025 Aleyumy Sweet. Todos los derechos reservados.</small>
+    </div>
+  </div>
+</footer>
+</body>
+
+</html>

@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <th:block th:replace="~{fragments/head :: head}"></th:block>
+    <title>Postres Más Vendidos y Evolución de Ventas</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+    <style>
+      .chart-card {
+        background: #fff;
+        border-radius: 10px;
+        padding: 12px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+        border: 1px solid rgba(0, 0, 0, 0.03);
+      }
+    </style>
+    <script src="js/postres.js"></script>
+  </head>
+
+  <body>
+    <div class="container py-3">
+      <div class="row align-items-center">
+        <!-- Logo -->
+        <div class="col-12 col-md-4 text-center text-md-start mb-2 mb-md-0">
+          <a
+            th:href="@{/index}"
+            class="navbar-brand fw-bold"
+            style="
+              font-family: &quot;Montserrat&quot;, cursive;
+              font-size: 2rem;
+              color: #dc3545;
+            "
+            >Aleyumy Sweet</a
+          >
+        </div>
+        <!-- Buscador -->
+        <div class="col-12 col-md-6">
+          <form class="d-flex" role="search">
+            <input
+              class="form-control rounded-start"
+              type="search"
+              placeholder="Buscar productos..."
+              aria-label="Buscar"
+            />
+            <button class="btn btn-outline-danger rounded-end" type="submit">
+              Buscar
+            </button>
+          </form>
+        </div>
+        <!-- Botón de inicio de sesión -->
+        <div class="col-12 col-md-2 text-end">
+          <!-- Si hay usuario en sesión -->
+          <th:block th:if="${session.usuarioLogueado != null}">
+            <div class="dropdown">
+              <button
+                class="btn btn-success dropdown-toggle"
+                type="button"
+                id="usuarioMenu"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <span th:text="${session.usuarioLogueado.nombre}"></span>
+              </button>
+              <ul
+                class="dropdown-menu dropdown-menu-end"
+                aria-labelledby="usuarioMenu"
+              >
+                <li>
+                  <a class="dropdown-item" th:href="@{/perfil}">Perfil</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" th:href="@{/logout}"
+                    >Cerrar sesión</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </th:block>
+
+          <!-- Si NO hay usuario en sesión -->
+          <th:block th:if="${session.usuarioLogueado == null}">
+            <a th:href="@{/login}" class="btn btn-danger">Iniciar sesión</a>
+          </th:block>
+        </div>
+      </div>
+    </div>
+
+    <nav class="navbar navbar-expand-md bg-white border-top">
+      <div class="container">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div
+          class="collapse navbar-collapse justify-content-center"
+          id="navbarNav"
+        >
+          <ul
+            class="navbar-nav fw-semibold text-center"
+            style="gap: 3rem; display: flex"
+          >
+            <li class="nav-item">
+              <a th:href="@{/empleado}" class="nav-link text-dark"
+                >Postulaciones</a
+              >
+            </li>
+            <li class="nav-item">
+              <a th:href="@{/tablaUsuarios}" class="nav-link text-dark"
+                >Usuarios</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                th:href="@{/masvendidos}"
+                class="nav-link text-danger border-bottom border-3 border-danger active"
+                >Gráficos</a
+              >
+            </li>
+            <li class="nav-item">
+              <a th:href="@{/empleados}" class="nav-link text-dark"
+                >Empleados</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container my-5">
+      <div class="row g-4">
+        <!-- Card 1 -->
+        <div class="col-12 col-lg-6">
+          <div class="chart-card h-100 d-flex flex-column">
+            <h3 class="mb-3 text-center" style="font-weight: 600">
+              Postres más vendidos
+            </h3>
+            <!-- altura controlada en línea -->
+            <div
+              class="flex-grow-1 d-flex align-items-center justify-content-center"
+            >
+              <canvas
+                id="graficoPostres"
+                style="max-width: 100%; width: 100%; height: 360px"
+              ></canvas>
+            </div>
+            <p class="text-center text-muted mt-3 mb-0 small">
+              Distribución porcentual por tipo de postre (muestra).
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="col-12 col-lg-6">
+          <div class="chart-card h-100 d-flex flex-column">
+            <h3 class="mb-3 text-center" style="font-weight: 600">
+              Evolución de ventas (uds)
+            </h3>
+            <div
+              class="flex-grow-1 d-flex align-items-center justify-content-center"
+            >
+              <canvas
+                id="graficoVentas"
+                style="max-width: 100%; width: 100%; height: 360px"
+              ></canvas>
+            </div>
+            <p class="text-center text-muted mt-3 mb-0 small">
+              Comparativo anual. Etiquetas muestran valores.
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      const postres = {
+        labels: ["Cheesecake", "Tiramisú", "Flan", "Brownie", "Tres Leches"],
+        values: [120, 90, 70, 50, 30],
+      };
+      const ventas = {
+        labels: ["2019", "2020", "2021", "2022", "2023", "2024"],
+        values: [120, 150, 200, 250, 220, 300],
+      };
+      const colors = ["#dc3545", "#6c757d", "#343a40", "#ffc107", "#0d6efd"];
+
+      //grafico 1
+      const canvas1 = document.getElementById("graficoPostres");
+      const ctx1 = canvas1.getContext("2d");
+      const total = postres.values.reduce((a, b) => a + b, 0);
+
+      new Chart(canvas1, {
+        type: "doughnut",
+        data: {
+          labels: postres.labels,
+          datasets: [
+            {
+              data: postres.values,
+              backgroundColor: colors,
+              borderColor: "#fff",
+              borderWidth: 2,
+            },
+          ],
+        },
+        options: {
+          maintainAspectRatio: false,
+          cutout: "55%",
+          plugins: {
+            legend: { position: "right" },
+            tooltip: {
+              callbacks: {
+                label: (c) =>
+                  `${c.label}: ${c.parsed} uds (${((c.parsed / total) * 100).toFixed(1)}%)`,
+              },
+            },
+            datalabels: {
+              color: "#fff",
+              formatter: (v) =>
+                (v / total) * 100 >= 6
+                  ? ((v / total) * 100).toFixed(1) + "%"
+                  : "",
+            },
+          },
+        },
+        plugins: [ChartDataLabels],
+      });
+
+      //grafico 2
+      const canvas2 = document.getElementById("graficoVentas");
+      const ctx2 = canvas2.getContext("2d");
+      const grad = ctx2.createLinearGradient(0, 0, 0, 360);
+      grad.addColorStop(0, "rgba(220,53,69,0.95)");
+      grad.addColorStop(1, "rgba(220,53,69,0.5)");
+
+      const rounded = {
+        id: "rounded",
+        afterDatasetDraw(chart) {
+          const ctx = chart.ctx,
+            bars = chart.getDatasetMeta(0).data;
+          bars.forEach((b) => {
+            const { x, y, base, width } = b,
+              r = 8,
+              l = x - width / 2,
+              rgt = x + width / 2,
+              t = Math.min(y, base),
+              bt = Math.max(y, base);
+            ctx.save();
+            ctx.fillStyle = grad;
+            ctx.beginPath();
+            ctx.moveTo(l, bt);
+            ctx.lineTo(l, t + r);
+            ctx.quadraticCurveTo(l, t, l + r, t);
+            ctx.lineTo(rgt - r, t);
+            ctx.quadraticCurveTo(rgt, t, rgt, t + r);
+            ctx.lineTo(rgt, bt);
+            ctx.closePath();
+            ctx.fill();
+            ctx.restore();
+          });
+        },
+      };
+
+      new Chart(canvas2, {
+        type: "bar",
+        data: {
+          labels: ventas.labels,
+          datasets: [{ data: ventas.values, backgroundColor: grad }],
+        },
+        options: {
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: { callbacks: { label: (c) => c.parsed.y + " uds" } },
+            datalabels: {
+              anchor: "end",
+              align: "end",
+              formatter: (v) => v + " uds",
+            },
+          },
+          scales: {
+            x: { grid: { display: false } },
+            y: { beginAtZero: true, ticks: { stepSize: 50 } },
+          },
+        },
+        plugins: [ChartDataLabels, rounded],
+      });
+    </script>
+
+    <!-- footer -->
+    <footer class="bg-dark text-white pt-4 pb-2">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <h5>Aleyumy Sweet</h5>
+            <ul class="list-unstyled">
+              <li><a>aleyumysweet@gmail.com</a></li>
+              <li>
+                <a th:href="@{/index}" class="footer-link"
+                  >Entrar como Cliente</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-4">
+            <h5>Enlaces útiles</h5>
+            <ul class="list-unstyled">
+              <li><a th:href="@{/tabla}" class="footer-link">Usuarios</a></li>
+              <li>
+                <a th:href="@{/empleado}" class="footer-link">Postulaciones</a>
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-4">
+            <h5>Redes sociales</h5>
+            <a
+              href="https://www.facebook.com/share/172HqSMcVx/?mibextid=wwXIfr"
+              class="text-white me-2"
+              ><i class="bi bi-facebook"></i
+            ></a>
+            <a href="#" class="text-white me-2"
+              ><i class="bi bi-whatsapp"></i
+            ></a>
+            <a
+              href="https://www.instagram.com/aleyumy_sweet?igsh=MXF0MnpkMXB6djFnaw=="
+              class="text-white"
+              ><i class="bi bi-instagram"></i
+            ></a>
+          </div>
+        </div>
+        <hr class="bg-light" />
+        <div class="text-center">
+          <small>© 2025 Aleyumy Sweet. Todos los derechos reservados.</small>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

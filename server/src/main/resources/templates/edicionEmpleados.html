@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:replace="~{fragments/head :: head}"></th:block>
+    <script src="js/postres.js"></script>
+    <title>Postreria | Admin</title>
+</head>
+
+<body>
+    <div class="container py-3">
+        <div class="row align-items-center">
+            <!-- Logo -->
+            <div class="col-12 col-md-4 text-center text-md-start mb-2 mb-md-0">
+                <a th:href="@{/index}" class="navbar-brand fw-bold"
+                    style="font-family: 'Montserrat', cursive; font-size: 2rem; color: #dc3545;">Aleyumy Sweet</a>
+            </div>
+            <!-- Buscador -->
+            <div class="col-12 col-md-6">
+                <form class="d-flex" role="search">
+                    <input class="form-control rounded-start" type="search" placeholder="Buscar productos..."
+                        aria-label="Buscar" />
+                    <button class="btn btn-outline-danger rounded-end" type="submit">Buscar</button>
+                </form>
+            </div>
+            <!-- Botón de inicio de sesión -->
+            <div class="col-12 col-md-2 text-end">
+  <!-- Si hay usuario en sesión -->
+  <th:block th:if="${session.usuarioLogueado != null}">
+    <div class="dropdown">
+      <button class="btn btn-success dropdown-toggle" type="button" id="usuarioMenu"
+              data-bs-toggle="dropdown" aria-expanded="false">
+        <span th:text="${session.usuarioLogueado.nombre}"></span>
+      </button>
+      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="usuarioMenu">
+        <li><a class="dropdown-item" th:href="@{/perfil}">Perfil</a></li>
+        <li><a class="dropdown-item" th:href="@{/logout}">Cerrar sesión</a></li>
+      </ul>
+    </div>
+  </th:block>
+
+  <!-- Si NO hay usuario en sesión -->
+  <th:block th:if="${session.usuarioLogueado == null}">
+    <a th:href="@{/login}" class="btn btn-danger">Iniciar sesión</a>
+  </th:block>
+</div>
+        </div>
+    </div>
+
+
+    <!-- Barra inferior con menú responsive y botón a la derecha -->
+    <nav class="navbar navbar-expand-md bg-white border-top">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav fw-semibold text-center" style="gap: 3rem; display: flex;">
+                    <li class="nav-item">
+                        <a th:href="@{/empleado}" class="nav-link text-dark">Postulaciones</a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:href="@{/tablaUsuarios}" class="nav-link text-dark">Usuarios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:href="@{/masvendidos}" class="nav-link text-dark">Postres más vendidos</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a th:href="@{/tablaEmpleado}"
+                            class="nav-link text-danger border-bottom border-3 border-danger active">Empleados</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+   <div class="container my-5">
+    <div class="card shadow-lg border-0 rounded-4 p-4 mx-auto" style="max-width: 800px;">
+        <h2 class="mb-4 text-center text-danger fw-bold">
+            ✏️ Editar Empleado
+        </h2>
+
+        <div class="mb-3 text-start">
+            <a class="btn btn-danger btn-sm" th:href="@{/tablaEmpleados}">
+                ← Volver
+            </a>
+        </div>
+
+        <form th:action="@{/guardar}" th:object="${lista_Empleados}" method="post" class="mt-3">
+
+            <!-- Primera fila: Código y Nombre -->
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold">Código</label>
+                    <input type="text" th:field="*{id}" class="form-control form-control-sm rounded-3"
+                        placeholder="E0001" readonly>
+                </div>
+                <div class="col-md-8">
+                    <label class="form-label fw-semibold">Nombre</label>
+                    <input type="text" th:field="*{nombre}" class="form-control form-control-sm rounded-3"
+                        placeholder="Ingrese nombre" required>
+                </div>
+            </div>
+
+            <!-- Segunda fila: Apellido y DNI -->
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Apellido</label>
+                    <input type="text" th:field="*{apellido}" class="form-control form-control-sm rounded-3"
+                        placeholder="Ingrese apellido" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">DNI</label>
+                    <input type="text" th:field="*{dni}" class="form-control form-control-sm rounded-3"
+                        placeholder="Ingrese DNI" maxlength="8" required>
+                </div>
+            </div>
+
+            <!-- Tercera fila: Teléfono y Correo -->
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Teléfono</label>
+                    <input type="text" th:field="*{telefono}" class="form-control form-control-sm rounded-3"
+                        placeholder="Ej. 987654321">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Correo</label>
+                    <input type="email" th:field="*{correo}" class="form-control form-control-sm rounded-3"
+                        placeholder="correo@ejemplo.com">
+                </div>
+            </div>
+
+            <!-- Botón Guardar -->
+            <div class="text-center">
+                <button type="submit" class="btn btn-danger px-5 rounded-pill shadow-sm">
+                    💾 Guardar Cambios
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+    <!-- footer -->
+    <footer class="bg-dark text-white pt-4 pb-2">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>Aleyumy Sweet</h5>
+                    <ul class="list-unstyled">
+                        <li><a>aleyumysweet@gmail.com</a></li>
+                        <li><a th:href="@{/index}" class="footer-link">Entrar como Cliente</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Enlaces útiles</h5>
+                    <ul class="list-unstyled">
+                        <li><a th:href="@{/tabla}" class="footer-link">Usuarios</a></li>
+                        <li><a th:href="@{/empleado}" class="footer-link">Postulaciones</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Redes sociales</h5>
+                    <a href="https://www.facebook.com/share/172HqSMcVx/?mibextid=wwXIfr" class="text-white me-2"><i
+                            class="bi bi-facebook"></i></a>
+                    <a href="#" class="text-white me-2"><i class="bi bi-whatsapp"></i></a>
+                    <a href="https://www.instagram.com/aleyumy_sweet?igsh=MXF0MnpkMXB6djFnaw==" class="text-white"><i
+                            class="bi bi-instagram"></i></a>
+                </div>
+            </div>
+            <hr class="bg-light">
+            <div class="text-center">
+                <small>© 2025 Aleyumy Sweet. Todos los derechos reservados.</small>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
