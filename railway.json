@@ -1,0 +1,4 @@
+{
+  "buildCommand": "cd server && ./mvnw clean package -DskipTests",
+  "startCommand": "cd server && java -Dserver.port=$PORT -jar target/*.jar"
+}
