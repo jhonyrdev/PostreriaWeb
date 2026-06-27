@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
 import axios from "axios";
 
 // 🔹 Definir tipo de factura
@@ -12,14 +12,15 @@ interface FacturaItem {
   subtotal: number;
 }
 function App() {
-
+  const rawApiUrl = import.meta.env.VITE_API_URL as string | undefined;
+  const apiUrl = rawApiUrl?.replace(/\/+$/, "") ?? "http://localhost:8009";
   const [nfac, setNfac] = useState<string>("");
   const [factura, setFactura] = useState<FacturaItem[]>([]);
   const [existeFactura, setExisteFactura] = useState<boolean>(false);
 
   const buscarFactura = (nfac: string) => {
     axios
-      .get<FacturaItem[]>(`http://localhost:8009/facturas/${nfac}`)
+      .get<FacturaItem[]>(`${apiUrl}/facturas/${nfac}`)
       .then((res) => {
         setFactura(res.data);
         setExisteFactura(true);
@@ -66,9 +67,7 @@ function App() {
             <div className="card border-danger shadow">
               <div className="card-body">
                 <div>
-                  <h3 className="text-danger text-center fw-bold">
-                    Factura
-                  </h3>
+                  <h3 className="text-danger text-center fw-bold">Factura</h3>
                   <hr />
                   <p>
                     <strong>Cliente: </strong>
@@ -103,9 +102,7 @@ function App() {
 
                 <hr />
                 <h5>
-                  <strong className="text-danger">
-                    Total de compra:{" "}
-                  </strong>
+                  <strong className="text-danger">Total de compra: </strong>
                   <span>S/. {totalCompra()}</span>
                 </h5>
               </div>
@@ -121,6 +118,6 @@ function App() {
       </div>
     </div>
   );
-};
+}
 
-export default App
+export default App;
