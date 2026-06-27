@@ -12,7 +12,7 @@
         <div class="row align-items-center">
             <!-- Logo -->
             <div class="col-12 col-md-4 text-center text-md-start mb-2 mb-md-0">
-                <a th:href="@{/index}" class="navbar-brand fw-bold" style="font-family: 'Montserrat', cursive; font-size: 2rem; color: #dc3545;">Aleyumy Sweet</a>
+                <a th:href="@{/index}" class="navbar-brand fw-bold" style="font-family: 'Montserrat', cursive; font-size: 2rem; color: #dc3545;">Pan de ayer</a>
             </div>
             <!-- Buscador -->
             <div class="col-12 col-md-6">
@@ -443,9 +443,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
-                    <h5>Aleyumy Sweet</h5>
+                    <h5>Pan de ayer</h5>
                     <ul class="list-unstyled">
-                        <li><a>aleyumysweet@gmail.com</a></li>
+                        <li><a>pandeayer@gmail.com</a></li>
                         <li><a th:href="@{/trabajo}" class="footer-link">Trabaja con nosotros</a></li>
                         <li><a th:href="@{/empleado}" class="footer-link">Entrar como Empleado</a></li>
                     </ul>
@@ -467,7 +467,7 @@
             </div>
             <hr class="bg-light">
             <div class="text-center">
-                <small>© 2025 Aleyumy Sweet. Todos los derechos reservados.</small>
+                <small>© <span th:text="${#dates.year(#dates.createNow())}"></span> Pan de ayer. Todos los derechos reservados.</small>
             </div>
         </div>
     </footer>

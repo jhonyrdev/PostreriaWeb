@@ -27,7 +27,7 @@
     <!-- Logo -->
     <div class="col-12 col-md-4 text-center text-md-start mb-2 mb-md-0">
       <a th:href="@{/index}" class="navbar-brand fw-bold"
-        style="font-family: 'Montserrat', cursive; font-size: 2rem; color: #dc3545;">Aleyumy Sweet</a>
+        style="font-family: 'Montserrat', cursive; font-size: 2rem; color: #dc3545;">Pan de ayer</a>
     </div>
     <!-- Buscador -->
     <div class="col-12 col-md-6">
@@ -109,7 +109,7 @@
   <div class="row align-items-center mb-5">
     <div class="col-12 col-lg-6">
       <p class="text-justificado">
-        En Aleyumy Sweet, creemos que la pastelería es más que una tradición: es una experiencia que evoluciona. Somos
+        En Pan de ayer, creemos que la pastelería es más que una tradición: es una experiencia que evoluciona. Somos
         un equipo apasionado por reinventar los postres clásicos con un toque moderno, combinando técnicas artesanales
         con innovación culinaria para sorprender cada paladar.
       </p>
@@ -122,7 +122,7 @@
       <p class="text-justificado">
         Nuestro compromiso es ofrecer productos frescos, creativos y honestos, elaborados con insumos seleccionados y
         procesos que garantizan calidad constante. Ya sea para una celebración especial o un antojo cotidiano, en
-        Aleyumy Sweet encontrarás el sabor que transforma lo cotidiano en extraordinario.
+        Pan de ayer encontrarás el sabor que transforma lo cotidiano en extraordinario.
       </p>
     </div>
     <div class="col-12 col-lg-6 text-center">
@@ -181,9 +181,9 @@
   <div class="container">
     <div class="row">
       <div class="col-md-4">
-        <h5>Aleyumy Sweet</h5>
+        <h5>Pan de ayer</h5>
         <ul class="list-unstyled">
-          <li><a>aleyumysweet@gmail.com</a></li>
+          <li><a>pandeayer@gmail.com</a></li>
           <li><a th:href="@{/trabajo}" class="footer-link">Trabaja con nosotros</a></li>
           <li><a th:href="@{/empleado}" class="footer-link">Entrar como Empleado</a></li>
         </ul>
@@ -207,7 +207,7 @@
     </div>
     <hr class="bg-light">
     <div class="text-center">
-      <small>© 2025 Aleyumy Sweet. Todos los derechos reservados.</small>
+      <small>© <span th:text="${#dates.year(#dates.createNow())}"></span> Pan de ayer. Todos los derechos reservados.</small>
     </div>
   </div>
 </footer>

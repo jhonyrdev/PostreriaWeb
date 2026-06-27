@@ -1,156 +1,224 @@
-<!DOCTYPE html>
+<!doctype html>
 <html xmlns="http://www.thymeleaf.org">
-
-<head>
-    
+  <head>
     <th:block th:replace="~{fragments/head :: head}"></th:block>
     <title>Postreria | Admin</title>
     <script src="js/postres.js"></script>
+  </head>
 
-</head>
-
-<body>
+  <body>
     <div class="container py-3">
-        <div class="row align-items-center">
-            <!-- Logo -->
-            <div class="col-12 col-md-4 text-center text-md-start mb-2 mb-md-0">
-                <a th:href="@{/index}" class="navbar-brand fw-bold"
-                    style="font-family: 'Montserrat', cursive; font-size: 2rem; color: #dc3545;">Aleyumy Sweet</a>
-            </div>
-            <!-- Buscador -->
-            <div class="col-12 col-md-6">
-                <form class="d-flex" role="search">
-                    <input class="form-control rounded-start" type="search" placeholder="Buscar productos..."
-                        aria-label="Buscar" />
-                    <button class="btn btn-outline-danger rounded-end" type="submit">Buscar</button>
-                </form>
-            </div>
-            <!-- Botón de inicio de sesión -->
-            <div class="col-12 col-md-2 text-end">
-  <!-- Si hay usuario en sesión -->
-  <th:block th:if="${session.usuarioLogueado != null}">
-    <div class="dropdown">
-      <button class="btn btn-success dropdown-toggle" type="button" id="usuarioMenu"
-              data-bs-toggle="dropdown" aria-expanded="false">
-        <span th:text="${session.usuarioLogueado.nombre}"></span>
-      </button>
-      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="usuarioMenu">
-        <li><a class="dropdown-item" th:href="@{/perfil}">Perfil</a></li>
-        <li><a class="dropdown-item" th:href="@{/logout}">Cerrar sesión</a></li>
-      </ul>
-    </div>
-  </th:block>
-
-  <!-- Si NO hay usuario en sesión -->
-  <th:block th:if="${session.usuarioLogueado == null}">
-    <a th:href="@{/login}" class="btn btn-danger">Iniciar sesión</a>
-  </th:block>
-</div>
+      <div class="row align-items-center">
+        <!-- Logo -->
+        <div class="col-12 col-md-4 text-center text-md-start mb-2 mb-md-0">
+          <a
+            th:href="@{/index}"
+            class="navbar-brand fw-bold"
+            style="
+              font-family: &quot;Montserrat&quot;, cursive;
+              font-size: 2rem;
+              color: #dc3545;
+            "
+            >Pan de ayer</a
+          >
         </div>
+        <!-- Buscador -->
+        <div class="col-12 col-md-6">
+          <form class="d-flex" role="search">
+            <input
+              class="form-control rounded-start"
+              type="search"
+              placeholder="Buscar productos..."
+              aria-label="Buscar"
+            />
+            <button class="btn btn-outline-danger rounded-end" type="submit">
+              Buscar
+            </button>
+          </form>
+        </div>
+        <!-- Botón de inicio de sesión -->
+        <div class="col-12 col-md-2 text-end">
+          <!-- Si hay usuario en sesión -->
+          <th:block th:if="${session.usuarioLogueado != null}">
+            <div class="dropdown">
+              <button
+                class="btn btn-success dropdown-toggle"
+                type="button"
+                id="usuarioMenu"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <span th:text="${session.usuarioLogueado.nombre}"></span>
+              </button>
+              <ul
+                class="dropdown-menu dropdown-menu-end"
+                aria-labelledby="usuarioMenu"
+              >
+                <li>
+                  <a class="dropdown-item" th:href="@{/perfil}">Perfil</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" th:href="@{/logout}"
+                    >Cerrar sesión</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </th:block>
+
+          <!-- Si NO hay usuario en sesión -->
+          <th:block th:if="${session.usuarioLogueado == null}">
+            <a th:href="@{/login}" class="btn btn-danger">Iniciar sesión</a>
+          </th:block>
+        </div>
+      </div>
     </div>
 
     <nav class="navbar navbar-expand-md bg-white border-top">
-        <div class="container">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+      <div class="container">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-                <ul class="navbar-nav fw-semibold text-center" style="gap: 3rem; display: flex;">
-                    <li class="nav-item">
-                        <a th:href="@{/empleado}" class="nav-link text-dark">Postulaciones</a>
-                    </li>
-                    <li class="nav-item">
-                        <a th:href="@{/tablaUsuarios}" class="nav-link text-dark">Usuarios</a>
-                    </li>
-                    <li class="nav-item">
-                        <a th:href="@{/masvendidos}" class="nav-link text-dark">Gráficos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a th:href="@{/empleados}"
-                            class="nav-link text-danger border-bottom border-3 border-danger active">Empleados</a>
-                    </li>
-
-                </ul>
-            </div>
+        <div
+          class="collapse navbar-collapse justify-content-center"
+          id="navbarNav"
+        >
+          <ul
+            class="navbar-nav fw-semibold text-center"
+            style="gap: 3rem; display: flex"
+          >
+            <li class="nav-item">
+              <a th:href="@{/empleado}" class="nav-link text-dark"
+                >Postulaciones</a
+              >
+            </li>
+            <li class="nav-item">
+              <a th:href="@{/tablaUsuarios}" class="nav-link text-dark"
+                >Usuarios</a
+              >
+            </li>
+            <li class="nav-item">
+              <a th:href="@{/masvendidos}" class="nav-link text-dark"
+                >Gráficos</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                th:href="@{/empleados}"
+                class="nav-link text-danger border-bottom border-3 border-danger active"
+                >Empleados</a
+              >
+            </li>
+          </ul>
         </div>
+      </div>
     </nav>
-
 
     <h2 class="mb-4 text-center">Listado de Empleados</h2>
     <div class="container">
-        <div class="row">
-            <div class="col-xl-12">
-                <table class="table table-hover table-bordered">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>ID</th>
-                            <th>Nombre</th>
-                            <th>Apellido</th>
-                            <th>DNI</th>
-                            <th>Teléfono</th>
-                            <th>Correo</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="emple : ${lista_Empleados}">
-                            <td th:text="${emple.id}"></td>
-                            <td th:text="${emple.nombre}"></td>
-                            <td th:text="${emple.apellido}"></td>
-                            <td th:text="${emple.dni}"></td>
-                            <td th:text="${emple.telefono}"></td>
-                            <td th:text="${emple.correo}"></td>
-                            <td>
-                                <a th:href="@{/eliminarE/{id}(id=${emple.id})}" class="btn btn-sm btn-danger"
-                                    onclick="return confirm('Deseas borrar a este postulante?')">
-                                    <i class="bi bi-trash3"></i>
-                                </a>
-                                <a th:href="@{/editarE/{id}(id=${emple.id})}" class="btn btn-sm btn-warning me-1">✏️</a>
-
-                            </td>
-                        </tr>
-                    </tbody>
-
-                </table>
-            </div>
+      <div class="row">
+        <div class="col-xl-12">
+          <table class="table table-hover table-bordered">
+            <thead class="table-dark">
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>DNI</th>
+                <th>Teléfono</th>
+                <th>Correo</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="emple : ${lista_Empleados}">
+                <td th:text="${emple.id}"></td>
+                <td th:text="${emple.nombre}"></td>
+                <td th:text="${emple.apellido}"></td>
+                <td th:text="${emple.dni}"></td>
+                <td th:text="${emple.telefono}"></td>
+                <td th:text="${emple.correo}"></td>
+                <td>
+                  <a
+                    th:href="@{/eliminarE/{id}(id=${emple.id})}"
+                    class="btn btn-sm btn-danger"
+                    onclick="
+                      return confirm('Deseas borrar a este postulante?');
+                    "
+                  >
+                    <i class="bi bi-trash3"></i>
+                  </a>
+                  <a
+                    th:href="@{/editarE/{id}(id=${emple.id})}"
+                    class="btn btn-sm btn-warning me-1"
+                    >✏️</a
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+      </div>
     </div>
 
     <!-- footer -->
     <footer class="bg-dark text-white pt-4 pb-2">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <h5>Aleyumy Sweet</h5>
-                    <ul class="list-unstyled">
-                        <li><a>aleyumysweet@gmail.com</a></li>
-                        <li><a th:href="@{/index}" class="footer-link">Entrar como Cliente</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-4">
-                    <h5>Enlaces útiles</h5>
-                    <ul class="list-unstyled">
-                        <li><a th:href="@{/tabla}" class="footer-link">Usuarios</a></li>
-                        <li><a th:href="@{/empleado}" class="footer-link">Postulaciones</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-4">
-                    <h5>Redes sociales</h5>
-                    <a href="https://www.facebook.com/share/172HqSMcVx/?mibextid=wwXIfr" class="text-white me-2"><i
-                            class="bi bi-facebook"></i></a>
-                    <a href="#" class="text-white me-2"><i class="bi bi-whatsapp"></i></a>
-                    <a href="https://www.instagram.com/aleyumy_sweet?igsh=MXF0MnpkMXB6djFnaw==" class="text-white"><i
-                            class="bi bi-instagram"></i></a>
-                </div>
-            </div>
-            <hr class="bg-light">
-            <div class="text-center">
-                <small>© 2025 Aleyumy Sweet. Todos los derechos reservados.</small>
-            </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <h5>Pan de ayer</h5>
+            <ul class="list-unstyled">
+              <li><a>pandeayer@gmail.com</a></li>
+              <li>
+                <a th:href="@{/index}" class="footer-link"
+                  >Entrar como Cliente</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-4">
+            <h5>Enlaces útiles</h5>
+            <ul class="list-unstyled">
+              <li><a th:href="@{/tabla}" class="footer-link">Usuarios</a></li>
+              <li>
+                <a th:href="@{/empleado}" class="footer-link">Postulaciones</a>
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-4">
+            <h5>Redes sociales</h5>
+            <a
+              href="https://www.facebook.com/share/172HqSMcVx/?mibextid=wwXIfr"
+              class="text-white me-2"
+              ><i class="bi bi-facebook"></i
+            ></a>
+            <a href="#" class="text-white me-2"
+              ><i class="bi bi-whatsapp"></i
+            ></a>
+            <a
+              href="https://www.instagram.com/aleyumy_sweet?igsh=MXF0MnpkMXB6djFnaw=="
+              class="text-white"
+              ><i class="bi bi-instagram"></i
+            ></a>
+          </div>
         </div>
+        <hr class="bg-light" />
+        <div class="text-center">
+          <small
+            >© <span th:text="${#dates.year(#dates.createNow())}"></span> Pan de
+            ayer. Todos los derechos reservados.</small
+          >
+        </div>
+      </div>
     </footer>
-</body>
-
+  </body>
 </html>

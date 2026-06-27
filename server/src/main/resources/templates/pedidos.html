@@ -4,7 +4,7 @@
 <head>
 
   <th:block th:replace="~{fragments/head :: head}"></th:block>
-  <title>Pedidos - Aleyumy Sweet</title>
+  <title>Pedidos - Pan de ayer</title>
   <script src="js/postres.js"></script>
 
 </head>
@@ -22,7 +22,7 @@
 
     <!-- Título estilo María Almenara -->
     <h1 class="text-center fw-bold" style="font-family: 'Montserrat', cursive; font-size: 3rem; color: #dc3545;">
-      Aleyumy Sweet
+      Pan de ayer
     </h1>
 
   </div>
@@ -155,7 +155,7 @@
     <div class="container-fluid">
 
       <div class="text-center">
-        <small>© 2025 Aleyumy Sweet. Todos los derechos reservados.</small>
+        <small>© <span th:text="${#dates.year(#dates.createNow())}"></span> Pan de ayer. Todos los derechos reservados.</small>
       </div>
 
     </div>
