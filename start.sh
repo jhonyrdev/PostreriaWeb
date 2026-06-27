@@ -1,3 +1,6 @@
 #!/bin/bash
+
 cd server
-./mvnw spring-boot:run
+chmod +x mvnw
+./mvnw clean package -DskipTests
+java -jar target/*.jar
