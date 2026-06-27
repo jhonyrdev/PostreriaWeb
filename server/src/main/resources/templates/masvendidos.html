@@ -30,7 +30,7 @@
               font-size: 2rem;
               color: #dc3545;
             "
-            >Aleyumy Sweet</a
+            >Pan de ayer</a
           >
         </div>
         <!-- Buscador -->
@@ -188,7 +188,7 @@
         labels: ["2019", "2020", "2021", "2022", "2023", "2024"],
         values: [120, 150, 200, 250, 220, 300],
       };
-      const colors = ["#dc3545", "#6c757d", "#343a40", "#ffc107", "#0d6efd"];
+      const colors = ["#c98b63", "#b97a57", "#8d6e63", "#d7b899", "#f0d7c8"];
 
       //grafico 1
       const canvas1 = document.getElementById("graficoPostres");
@@ -297,9 +297,9 @@
       <div class="container">
         <div class="row">
           <div class="col-md-4">
-            <h5>Aleyumy Sweet</h5>
+            <h5>Pan de ayer</h5>
             <ul class="list-unstyled">
-              <li><a>aleyumysweet@gmail.com</a></li>
+              <li><a>pandeayer@gmail.com</a></li>
               <li>
                 <a th:href="@{/index}" class="footer-link"
                   >Entrar como Cliente</a
@@ -335,7 +335,10 @@
         </div>
         <hr class="bg-light" />
         <div class="text-center">
-          <small>© 2025 Aleyumy Sweet. Todos los derechos reservados.</small>
+          <small
+            >© <span th:text="${#dates.year(#dates.createNow())}"></span> Pan de
+            ayer. Todos los derechos reservados.</small
+          >
         </div>
       </div>
     </footer>

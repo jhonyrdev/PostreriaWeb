@@ -6,7 +6,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/main.css}">
-    <link rel="website icon" type="jpg" th:href="@{/imagenes/logo.jpg}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
@@ -15,6 +14,128 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+  <style>
+    :root {
+      --bs-danger: #c98b63;
+      --bs-danger-rgb: 201, 139, 99;
+      --bs-danger-text-emphasis: #8a4f31;
+      --bs-danger-bg-subtle: #f8e6db;
+      --bs-danger-border-subtle: #efd0be;
+    }
+
+    .btn-danger {
+      --bs-btn-color: #fff;
+      --bs-btn-bg: #b97a57;
+      --bs-btn-border-color: #b97a57;
+      --bs-btn-hover-color: #fff;
+      --bs-btn-hover-bg: #a66a49;
+      --bs-btn-hover-border-color: #a66a49;
+      --bs-btn-focus-shadow-rgb: 185, 122, 87;
+      --bs-btn-active-color: #fff;
+      --bs-btn-active-bg: #8f5c40;
+      --bs-btn-active-border-color: #8f5c40;
+      --bs-btn-disabled-color: #fff;
+      --bs-btn-disabled-bg: #b97a57;
+      --bs-btn-disabled-border-color: #b97a57;
+    }
+
+    .btn-outline-danger {
+      --bs-btn-color: #b97a57;
+      --bs-btn-border-color: #b97a57;
+      --bs-btn-hover-color: #fff;
+      --bs-btn-hover-bg: #b97a57;
+      --bs-btn-hover-border-color: #b97a57;
+      --bs-btn-focus-shadow-rgb: 185, 122, 87;
+      --bs-btn-active-color: #fff;
+      --bs-btn-active-bg: #a66a49;
+      --bs-btn-active-border-color: #a66a49;
+      --bs-btn-disabled-color: #b97a57;
+      --bs-btn-disabled-bg: transparent;
+      --bs-btn-disabled-border-color: #b97a57;
+    }
+
+    .text-danger {
+      color: #c98b63 !important;
+    }
+
+    .border-danger {
+      border-color: #efd0be !important;
+    }
+
+    .bg-danger {
+      background-color: #b97a57 !important;
+    }
+
+    .alert-danger {
+      color: #7f4a2f;
+      background-color: #f8e6db;
+      border-color: #efd0be;
+    }
+
+    .link-danger {
+      color: #b97a57 !important;
+    }
+
+    .btn-light.border-danger.text-danger {
+      background-color: #fff7f1 !important;
+      border-color: #efd0be !important;
+      color: #b97a57 !important;
+    }
+
+    .nav-link.text-danger.border-bottom.border-3.border-danger.active {
+      color: #b97a57 !important;
+      border-color: #b97a57 !important;
+    }
+
+    .card.border-danger {
+      border-color: #efd0be !important;
+    }
+
+    [style*="color: #dc3545"] {
+      color: #c98b63 !important;
+    }
+
+    [style*="border-color: #dc3545"] {
+      border-color: #c98b63 !important;
+    }
+
+    [style*="background-color: #a93232"] {
+      background-color: #b97a57 !important;
+    }
+
+    [style*="background-color: #ff0000"] {
+      background-color: #b97a57 !important;
+    }
+
+    [style*="background-color: #cc0000"] {
+      background-color: #a66a49 !important;
+    }
+
+    .form-signin h1 {
+      color: #c98b63 !important;
+    }
+
+    .form-control:focus {
+      border-color: #c98b63 !important;
+      box-shadow: 0 0 5px rgba(201, 139, 99, 0.3) !important;
+    }
+
+    .carousel-control-prev,
+    .carousel-control-next,
+    .btn-enviar,
+    .contact-left {
+      background-color: #b97a57 !important;
+      border-color: #b97a57 !important;
+    }
+
+    .btn-enviar:hover {
+      background-color: #a66a49 !important;
+    }
+
+    .contact-left {
+      color: #fff !important;
+    }
+  </style>
   </th:block>
 
 </html>
