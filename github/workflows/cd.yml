@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -27,3 +27,10 @@ jobs:
         with:
           name: app
           path: server/target/*.jar
+
+      - name: Deploy to Render
+        run: |
+          curl -X POST \
+            "https://api.render.com/deploy/${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}" \
+            -H "Content-Type: application/json"
+        continue-on-error: true
