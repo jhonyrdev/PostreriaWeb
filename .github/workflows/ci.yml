@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - jhonrama
+      - JhonBranch
   pull_request:
     branches:
       - main
@@ -24,4 +24,15 @@ jobs:
           cache: maven
 
       - name: Test & Compile
-        run: cd server && mvn clean verify
+        env:
+          SPRING_PROFILES_ACTIVE: prod
+          DB_URL: ${{ secrets.DB_URL }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          MAIL_HOST: ${{ secrets.MAIL_HOST }}
+          MAIL_PORT: ${{ secrets.MAIL_PORT }}
+          MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+        run: |
+          cd server
+          mvn clean verify
