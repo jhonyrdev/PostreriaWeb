@@ -221,7 +221,7 @@ public class Usuarios_Controller {
     @GetMapping("/logout")
     public String logout(HttpSession session) {
     session.invalidate(); // Elimina todos los atributos de sesión
-    return "redirect:/";  // Redirige al inicio o donde prefieras
+    return "redirect:/index";  // Redirige al inicio o donde prefieras
     }
 
 }

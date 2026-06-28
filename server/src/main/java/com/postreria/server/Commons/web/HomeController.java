@@ -10,6 +10,11 @@ import lombok.*;
 @Controller
 public class HomeController {
 
+    @GetMapping("/")
+    public String inicio(){
+        return "redirect:/index";
+    }
+
     @GetMapping("/index")
     public String index(){
         return "index";
