@@ -49,15 +49,14 @@ public class UsuariosServicio {
         return usuariosRepository.findByCorreo(correo);
     }
 
-    
-
     // ============================================================
     // LOGIN (1) VALIDAR CREDENCIALES
     // ============================================================
 
     public Clientes validarCredenciales(String correo, String contrasena) {
         Clientes u = usuariosRepository.findByCorreo(correo);
-        if (u == null) return null;
+        if (u == null)
+            return null;
 
         if (!passwordEncoder.matches(contrasena, u.getContrasena())) {
             return null;
@@ -87,7 +86,8 @@ public class UsuariosServicio {
 
     public Clientes validarTokenLogin(String token) {
         Clientes u = usuariosRepository.findByTokenLogin(token);
-        if (u == null) return null;
+        if (u == null)
+            return null;
 
         if (u.getTokenLoginExpira().isBefore(LocalDateTime.now()))
             return null;
@@ -106,7 +106,8 @@ public class UsuariosServicio {
 
     public boolean generarTokenRecuperar(String correo) {
         Clientes u = usuariosRepository.findByCorreo(correo);
-        if (u == null) return false;
+        if (u == null)
+            return false;
 
         String token = generarCodigo();
         u.setTokenRecuperar(token);
@@ -126,7 +127,8 @@ public class UsuariosServicio {
 
     public Clientes validarTokenRecuperar(String token) {
         Clientes u = usuariosRepository.findByTokenRecuperar(token);
-        if (u == null) return null;
+        if (u == null)
+            return null;
 
         if (u.getTokenRecuperarExpira().isBefore(LocalDateTime.now()))
             return null;
@@ -151,11 +153,18 @@ public class UsuariosServicio {
     // ============================================================
 
     private void enviarCorreo(String para, String asunto, String cuerpo) {
-        SimpleMailMessage mensaje = new SimpleMailMessage();
-        mensaje.setTo(para);
-        mensaje.setSubject(asunto);
-        mensaje.setText(cuerpo);
-        mailSender.send(mensaje);
+        try {
+            SimpleMailMessage mensaje = new SimpleMailMessage();
+            mensaje.setTo(para);
+            mensaje.setSubject(asunto);
+            mensaje.setText(cuerpo);
+
+            mailSender.send(mensaje);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error enviando correo", e);
+        }
     }
 
     // ============================================================
@@ -166,16 +175,4 @@ public class UsuariosServicio {
         int codigo = random.nextInt(900000) + 100000;
         return String.valueOf(codigo);
     }
-
-
-
-
-
-    
-    
-
-
-
-
-
 }
